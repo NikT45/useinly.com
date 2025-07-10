@@ -1,41 +1,30 @@
+import { MessageCircle, NotebookPen, Lightbulb } from 'lucide-react'
+
 export default function HeaderNav() {
     return (
-        <nav className="w-full bg-white border-b border-gray-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between py-4">
-                    <a 
-                        href="#" 
-                        className="text-gray-700 hover:text-purple-400 transition-colors duration-200 relative group"
-                    >
-                        <span className="py-2">Chat</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    
-                    <a 
-                        href="#" 
-                        className="text-gray-700 hover:text-purple-400 transition-colors duration-200 relative group"
-                    >
-                        <span className="py-2">Insights</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    
-                    <a 
-                        href="#" 
-                        className="text-gray-700 hover:text-purple-400 transition-colors duration-200 relative group"
-                    >
-                        <span className="py-2">Reflections</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                    
-                    <a 
-                        href="#" 
-                        className="text-gray-700 hover:text-purple-400 transition-colors duration-200 relative group"
-                    >
-                        <span className="py-2">My Account</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 transition-all duration-300 group-hover:w-full"></span>
-                    </a>
-                </div>
-            </div>
+        /*        <nav className="w-[25%] bg-opacity-35 p-2 rounded-full border bg-brand-softPink">
+                   <div className="flex items-center justify-between px-2">
+                       <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                           <MessageCircle size={20} className="text-white" strokeWidth={2} />
+                       </button>
+                       <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                           <Zap size={20} className="text-white" strokeWidth={2} />
+                       </button>
+                       <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                           <Heart size={20} className="text-white" strokeWidth={2} />
+                       </button>
+                   </div>
+               </nav> */
+        <nav className="min-w-[25%] bg-opacity-35 p-[6px] rounded-full bg-brand-softPink flex items-center justify-between">
+            <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                <MessageCircle size={20} className="text-white" strokeWidth={2} />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                <NotebookPen size={20} className="text-white" strokeWidth={2} />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-brand-coral flex items-center justify-center flex-shrink-0">
+                <Lightbulb size={20} className="text-white" strokeWidth={2} />
+            </button>
         </nav>
     )
 }

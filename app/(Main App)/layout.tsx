@@ -1,4 +1,4 @@
-import HeaderNav from "@/components/header-nav";
+import HeaderNav from "@/components/HeaderNav";
 
 export default function MainAppLayout({
   children,

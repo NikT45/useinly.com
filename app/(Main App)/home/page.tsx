@@ -1,27 +1,45 @@
-import { redirect } from "next/navigation";
+'use client'
 import { InteractModesButtons } from "@/components/interact-modes-buttons";
-import { TalkCircle } from "@/components/TalkCircle";
+import TalkCircle from "@/components/TalkCircle";
+import { createClient } from "@/lib/supabase/client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
-import { InfoIcon } from "lucide-react";
-import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
+export default function Home() {
+  const [mode, setMode] = useState<'idle' | 'voice' | 'text'>('idle'); 
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const supabase = createClient();
 
-export default async function Home() {
-  const supabase = await createClient();
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        router.push("/auth/login");
+      } else {
+        setIsLoading(false);
+      }
+    };
 
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/auth/login");
+    checkAuth();
+  }, [router, supabase.auth]);
+
+  if (isLoading) {
+    return (
+      <div className="flex-1 w-full flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
       <h1>Home</h1>
       <div className="flex justify-center">
-        <TalkCircle />
+        <TalkCircle mode={mode}/>
       </div>
       <div className="flex justify-center">
-        <InteractModesButtons />
+        <InteractModesButtons mode={mode} setMode={setMode} />
       </div>
     </div>
   );

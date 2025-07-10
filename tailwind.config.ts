@@ -11,6 +11,13 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: {
+          wine: "#450920",
+          berry: "#A53860",
+          coral: "#DA627D",
+          peach: "#F9DBBD",
+          softPink: "#FFA5AB",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -57,6 +64,7 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
     },
   },
   plugins: [require("tailwindcss-animate")],

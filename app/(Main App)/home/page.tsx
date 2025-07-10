@@ -33,8 +33,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
-      <h1>Home</h1>
+    <div className="w-full justify-between h-full flex flex-col">
       <div className="flex justify-center">
         <TalkCircle mode={mode}/>
       </div>

@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playfair: ['var(--font-playfair)', 'serif'],
+      },
       colors: {
         brand: {
           wine: "#450920",

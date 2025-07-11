@@ -3,7 +3,7 @@ import { Speech, MessageSquareText } from 'lucide-react'
 
 export function InteractModesButtons({mode,setMode}:{mode:string,setMode:any}) {
     return (
-        <div className="flex gap-[24px]">
+        <div className="flex mt-10 gap-[24px]">
             <button onClick={() => setMode('voice')} className="rounded-full min-w-[128px] justify-center flex px-[12px] py-[8px] items-center bg-brand-softPink gap-[12px]">
                 <a className="text-brand-wine font-medium">Speak</a>
                 <Speech className="text-brand-wine">

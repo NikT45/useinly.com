@@ -10,7 +10,7 @@ export default function MainAppLayout({
       <div className="flex mt-4 mb-4 justify-center">
         <HeaderNav />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col ">
         {children}
       </div>
     </main>

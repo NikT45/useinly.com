@@ -4,7 +4,8 @@ import TalkCircle from "@/components/TalkCircle";
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import { Conversation } from "@/components/conversation";
+import ClientTest from "@/components/clientTest";
 export default function Home() {
   const [mode, setMode] = useState<'idle' | 'voice' | 'text'>('idle'); 
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,9 @@ export default function Home() {
       <div className="flex justify-center">
         <TalkCircle mode={mode}/>
       </div>
+
+      <Conversation />
+      
       <div className="flex justify-center">
         <InteractModesButtons mode={mode} setMode={setMode} />
       </div>

@@ -16,7 +16,7 @@ export default function TalkCircle({ mode }: Props) {
                 ...(mode === 'loading' 
                     ? {
                         repeat: Infinity,
-                        duration: 1,
+                        duration: 1.5,
                         ease: "easeInOut"
                     }
                     : {

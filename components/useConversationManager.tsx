@@ -21,7 +21,7 @@ export function useConversationManager() {
   };
 
   async function startConversation() {
-    setMode('loading');
+    setMode('loading')
     console.log('startConversation called, current mode:', mode);
     try {
       console.log('Requesting microphone permission...');
@@ -43,11 +43,43 @@ export function useConversationManager() {
     setMode('idle');
   }
 
+  const muteMicrophone = useCallback(() => {
+    try {
+      conversation.micMuted = true;
+      console.log('Microphone muted');
+    } catch (err) {
+      console.error('Failed to mute microphone:', err);
+    }
+  }, [conversation]);
+
+  const unmuteMicrophone = useCallback(() => {
+    try {
+      conversation.micMuted = false;
+      console.log('Microphone unmuted');
+    } catch (err) {
+      console.error('Failed to unmute microphone:', err);
+    }
+  }, [conversation]);
+
+  const toggleMicrophone = useCallback(() => {
+    try {
+      const newMutedState = !conversation.micMuted;
+      conversation.micMuted = newMutedState;
+      console.log(`Microphone ${newMutedState ? 'muted' : 'unmuted'}`);
+    } catch (err) {
+      console.error('Failed to toggle microphone:', err);
+    }
+  }, [conversation]);
+
   return {
     status: conversation.status,
     isSpeaking: conversation.isSpeaking,
+    micMuted: conversation.micMuted,
     startConversation,
     stopConversation,
+    muteMicrophone,
+    unmuteMicrophone,
+    toggleMicrophone,
     mode,
     setMode,
   };

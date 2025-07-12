@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Conversation } from "@/components/conversation";
 import { useConversationManager } from "@/components/useConversationManager";
+import VoiceCallButtons from "@/components/voiceCallButtons";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,10 +54,16 @@ export default function Home() {
       </div>
 
       {/* <Conversation /> */}
-      
+      {mode === 'idle' && (
       <div className="flex justify-center">
         <InteractModesButtons mode={mode} setMode={setMode} startVoice={startConversation} />
       </div>
+      )}
+      {mode === 'voice' && (
+        <div className="flex justify-center">
+            <VoiceCallButtons />
+        </div>
+      )}
     </div>
  /*    <div className="flex flex-col items-center justify-center h-full px-4 py-8 bg-blue-500">
         <p>hi</p>

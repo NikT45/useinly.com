@@ -5,12 +5,22 @@ import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Conversation } from "@/components/conversation";
-import ClientTest from "@/components/clientTest";
+import { useConversationManager } from "@/components/useConversationManager";
+
 export default function Home() {
-  const [mode, setMode] = useState<'idle' | 'voice' | 'text'>('idle'); 
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
+
+//calling logic
+  const {
+    status,
+    isSpeaking,
+    startConversation,
+    stopConversation,
+    mode,
+    setMode,
+  } = useConversationManager();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -39,13 +49,13 @@ export default function Home() {
         <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
     )}
       <div className="flex justify-center">
-        <TalkCircle mode={mode}/>
+        <TalkCircle mode={mode} />
       </div>
 
-      <Conversation />
+      {/* <Conversation /> */}
       
       <div className="flex justify-center">
-        <InteractModesButtons mode={mode} setMode={setMode} />
+        <InteractModesButtons mode={mode} setMode={setMode} startVoice={startConversation} />
       </div>
     </div>
  /*    <div className="flex flex-col items-center justify-center h-full px-4 py-8 bg-blue-500">

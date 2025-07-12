@@ -5,7 +5,7 @@ type Props = {
     mode: 'idle' | 'voice' | 'text';
 };
 
-export default function TalkCircle({mode}: Props) {
+export default function TalkCircle({ mode }: Props) {
     return (
         <motion.div 
             className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl bg-gray-100' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' ? 'bg-brand-softPink' : ''} flex items-center justify-between`}

@@ -1,11 +1,9 @@
 "use client"
 import { motion } from "framer-motion";
+import { useConversation } from "@/context/ConversationProvider";
 
-type Props = {
-    mode: 'idle' | 'voice' | 'text' | 'loading';
-};
-
-export default function TalkCircle({ mode }: Props) {
+export default function TalkCircle() {
+    const {mode} = useConversation();
     return (
         <motion.div 
             className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl bg-gray-100' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink' : ''} flex items-center justify-between`}

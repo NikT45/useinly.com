@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/client';
 
 export function Conversation() {
   const supabase = createClient();
-
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
@@ -28,7 +27,10 @@ export function Conversation() {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       const signedUrl = await getSignedUrl();
 
-      await conversation.startSession({ signedUrl });
+      await conversation.startSession({ 
+        signedUrl
+      
+       });
     } catch (error) {
       console.error('Failed to start conversation:', error);
     }

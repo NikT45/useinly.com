@@ -5,25 +5,15 @@ import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Conversation } from "@/components/conversation";
-import { useConversationManager } from "@/components/useConversationManager";
 import VoiceCallButtons from "@/components/voiceCallButtons";
+import { useConversation } from "@/context/ConversationProvider";
 
 export default function Home() {
+    const {mode} = useConversation();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
 
-//calling logic
-  const {
-    status,
-    isSpeaking,
-    startConversation,
-    stopConversation,
-    mode,
-    setMode,
-    micMuted,
-    toggleMicrophone,
-  } = useConversationManager();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -54,13 +44,13 @@ export default function Home() {
           <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
       )}
         <div className="flex justify-center">
-          <TalkCircle mode={mode} />
+          <TalkCircle/>
         </div>
 
         {/* <Conversation /> */}
         {mode === 'idle' && (
         <div className="flex justify-center">
-          <InteractModesButtons mode={mode} setMode={setMode} startVoice={startConversation} />
+          <InteractModesButtons  />
         </div>
         )}
     </div>
@@ -68,7 +58,7 @@ export default function Home() {
     {/* Voice call buttons at the bottom */}
     {mode === 'voice' && (
       <div className="flex justify-center pb-8">
-          <VoiceCallButtons stopVoice={stopConversation} toggleMicrophone={toggleMicrophone} micMuted={micMuted}/>
+          <VoiceCallButtons />
       </div>
     )}
     </div>

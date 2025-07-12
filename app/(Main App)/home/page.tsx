@@ -21,6 +21,8 @@ export default function Home() {
     stopConversation,
     mode,
     setMode,
+    micMuted,
+    toggleMicrophone,
   } = useConversationManager();
 
   useEffect(() => {
@@ -45,25 +47,30 @@ export default function Home() {
   }
 
   return (
-   <div className="flex-1 flex flex-col items-center justify-center gap-2 px-4 py-4">
-    {mode === 'idle' && (
-        <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
-    )}
-      <div className="flex justify-center">
-        <TalkCircle mode={mode} />
-      </div>
-
-      {/* <Conversation /> */}
+   <div className="flex-1 flex flex-col items-center px-4 py-4 relative">
+    {/* Main content centered */}
+    <div className="flex-1 flex flex-col items-center justify-center gap-2">
       {mode === 'idle' && (
-      <div className="flex justify-center">
-        <InteractModesButtons mode={mode} setMode={setMode} startVoice={startConversation} />
-      </div>
+          <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
       )}
-      {mode === 'voice' && (
         <div className="flex justify-center">
-            <VoiceCallButtons />
+          <TalkCircle mode={mode} />
         </div>
-      )}
+
+        {/* <Conversation /> */}
+        {mode === 'idle' && (
+        <div className="flex justify-center">
+          <InteractModesButtons mode={mode} setMode={setMode} startVoice={startConversation} />
+        </div>
+        )}
+    </div>
+    
+    {/* Voice call buttons at the bottom */}
+    {mode === 'voice' && (
+      <div className="flex justify-center pb-8">
+          <VoiceCallButtons stopVoice={stopConversation} toggleMicrophone={toggleMicrophone} micMuted={micMuted}/>
+      </div>
+    )}
     </div>
  /*    <div className="flex flex-col items-center justify-center h-full px-4 py-8 bg-blue-500">
         <p>hi</p>

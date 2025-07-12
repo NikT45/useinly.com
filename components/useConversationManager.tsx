@@ -6,11 +6,13 @@ import { createClient } from '@/lib/supabase/client';
 export function useConversationManager() {
   const supabase = createClient();
   const [mode, setMode] = useState< 'idle' | 'voice' | 'text' | 'loading'>('idle'); 
+  const [micMuted, setMicMuted] = useState(false);
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
     onMessage: (message) => console.log('Message:', message),
     onError: (error) => console.error('Error:', error),
+    micMuted: micMuted,
   });
 
   const getSignedUrl = async (): Promise<string> => {
@@ -38,33 +40,41 @@ export function useConversationManager() {
     }
   }
 
-  async function stopConversation(){
-    await conversation.endSession();
-    setMode('idle');
-  }
-
-  const muteMicrophone = useCallback(() => {
+  async function stopConversation() {
+    console.log('stopConversation called, current mode:', mode);
     try {
-      conversation.micMuted = true;
+      await conversation.endSession();
+      setMode('idle');
+      console.log('Conversation ended successfully.');
+    } catch (err) {
+      console.error('Failed to stop conversation:', err);
+    }
+  }
+  
+
+  function muteMicrophone() {
+    try {
+     
+      setMicMuted(true);
       console.log('Microphone muted');
     } catch (err) {
       console.error('Failed to mute microphone:', err);
     }
-  }, [conversation]);
+  }
 
-  const unmuteMicrophone = useCallback(() => {
+  function unmuteMicrophone() {
     try {
-      conversation.micMuted = false;
+      setMicMuted(false);
       console.log('Microphone unmuted');
     } catch (err) {
       console.error('Failed to unmute microphone:', err);
     }
-  }, [conversation]);
+  }
 
   const toggleMicrophone = useCallback(() => {
     try {
-      const newMutedState = !conversation.micMuted;
-      conversation.micMuted = newMutedState;
+      const newMutedState = !micMuted;
+      setMicMuted(newMutedState);
       console.log(`Microphone ${newMutedState ? 'muted' : 'unmuted'}`);
     } catch (err) {
       console.error('Failed to toggle microphone:', err);
@@ -72,9 +82,9 @@ export function useConversationManager() {
   }, [conversation]);
 
   return {
-    status: conversation.status,
-    isSpeaking: conversation.isSpeaking,
-    micMuted: conversation.micMuted,
+    status: conversation?.status,
+    isSpeaking: conversation?.isSpeaking,
+    micMuted: conversation?.micMuted ?? false,
     startConversation,
     stopConversation,
     muteMicrophone,

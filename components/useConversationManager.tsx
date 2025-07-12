@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 
 export function useConversationManager() {
   const supabase = createClient();
-  const [mode, setMode] = useState< 'idle' | 'voice' | 'text'>('idle'); 
+  const [mode, setMode] = useState< 'idle' | 'voice' | 'text' | 'loading'>('idle'); 
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
@@ -21,6 +21,7 @@ export function useConversationManager() {
   };
 
   async function startConversation() {
+    setMode('loading');
     console.log('startConversation called, current mode:', mode);
     try {
       console.log('Requesting microphone permission...');

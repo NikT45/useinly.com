@@ -26,15 +26,21 @@ export function Conversation() {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       const signedUrl = await getSignedUrl();
-
-      await conversation.startSession({ 
-        signedUrl
       
-       });
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      await conversation.startSession({ 
+        signedUrl,// Replace with your actual agent ID
+        dynamicVariables: {
+          user_name: 'Nik',
+          userId: user?.id || 'anonymous'
+        }
+      });
     } catch (error) {
       console.error('Failed to start conversation:', error);
     }
-  }, [conversation]);
+  }, [conversation, supabase]);
 
   const stopConversation = useCallback(async () => {
     await conversation.endSession();

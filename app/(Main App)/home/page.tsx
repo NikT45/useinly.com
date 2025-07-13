@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Conversation } from "@/components/conversation";
 import VoiceCallButtons from "@/components/voiceCallButtons";
 import { useConversation } from "@/context/ConversationProvider";
+import { Chat } from "@/components/chat";
 
 export default function Home() {
     const {mode} = useConversation();
@@ -43,7 +44,10 @@ export default function Home() {
       {mode === 'idle' && (
           <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
       )}
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center">
+          {mode === 'text' && (
+            <Chat></Chat>
+          )}
           <TalkCircle/>
         </div>
 
@@ -62,8 +66,5 @@ export default function Home() {
       </div>
     )}
     </div>
- /*    <div className="flex flex-col items-center justify-center h-full px-4 py-8 bg-blue-500">
-        <p>hi</p>
-    </div> */
   );
 }

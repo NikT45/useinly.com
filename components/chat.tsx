@@ -1,6 +1,9 @@
-'use client';
+import { useConversation } from "@/context/ConversationProvider";
 
-export default function Chat(messages) {
+export function Chat() {
+
+  const {messages} = useConversation();
+
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       {messages.map(message => (
@@ -14,7 +17,6 @@ export default function Chat(messages) {
           })}
         </div>
       ))}
-
     </div>
   );
 }

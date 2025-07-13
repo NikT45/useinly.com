@@ -1,7 +1,7 @@
-// hooks/useConversationManager.ts
 import { useConversation } from '@elevenlabs/react';
 import { useCallback, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useChat } from '@ai-sdk/react';
 
 export function useConversationManager() {
   const supabase = createClient();
@@ -81,6 +81,8 @@ export function useConversationManager() {
     }
   }, [conversation]);
 
+  const { messages, input, handleInputChange, handleSubmit } = useChat(); 
+
   return {
     status: conversation?.status,
     isSpeaking: conversation?.isSpeaking,
@@ -92,5 +94,9 @@ export function useConversationManager() {
     toggleMicrophone,
     mode,
     setMode,
+    messages,
+    input, 
+    handleInputChange,
+    handleSubmit
   };
 }

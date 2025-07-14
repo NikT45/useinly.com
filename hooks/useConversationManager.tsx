@@ -30,8 +30,21 @@ export function useConversationManager() {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       console.log('Getting signed URL...');
       const signedUrl = await getSignedUrl();
+      
+      // Get current user from Supabase
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('No authenticated user found');
+      }
+      
       console.log('Starting conversation session...');
-      await conversation.startSession({ signedUrl });
+      await conversation.startSession({ 
+        signedUrl,
+        userId: user.id,
+        dynamicVariables: {
+          user_name: 'Nik'
+        }
+      });
       console.log('Setting mode to voice...');
       setMode('voice');
     } catch (err) {
@@ -71,7 +84,7 @@ export function useConversationManager() {
     }
   }
 
-  const toggleMicrophone = useCallback(() => {
+  function toggleMicrophone() {
     try {
       const newMutedState = !micMuted;
       setMicMuted(newMutedState);
@@ -79,7 +92,7 @@ export function useConversationManager() {
     } catch (err) {
       console.error('Failed to toggle microphone:', err);
     }
-  }, [conversation]);
+  }
 
   const { messages, input, handleInputChange, handleSubmit } = useChat(); 
 

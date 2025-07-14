@@ -44,10 +44,10 @@ export default function Home() {
       {mode === 'idle' && (
           <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium font-playfair mb-8">How are you feeling?</h1>
       )}
-        <div className="flex flex-col justify-center">
-          {mode === 'text' && (
+      {mode === 'text' && (
             <Chat></Chat>
           )}
+        <div className="flex justify-center">
           <TalkCircle/>
         </div>
 

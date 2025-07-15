@@ -41,7 +41,8 @@ export default function NewReflectionEntry({
         if (text.trim()) {
             // Extract title from first line or use a default
             const lines = text.trim().split('\n')
-            const title = lines[0].length > 50 ? lines[0].substring(0, 47) + '...' : lines[0]
+            //keeping title empty for now
+            const title = ""
             const content = text.trim()
             
             try {

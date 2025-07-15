@@ -106,6 +106,16 @@ export function useReflectionsManager() {
             }
         });
         if (error) throw error;
+        
+        // Update the local state to reflect the changes immediately
+        setReflections(prevReflections => 
+            prevReflections.map(reflection => 
+                reflection.id === id 
+                    ? { ...reflection, content } 
+                    : reflection
+            )
+        );
+        
         return data;
     }
 

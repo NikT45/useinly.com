@@ -3,11 +3,13 @@
 import { useState, useRef, useEffect } from 'react'
 
 export default function ReflectionEntry(props: {
+    id: string
     text: string
     date: string
     onTextChange?: (newText: string) => void
+    onUpdate?: (id: string, content: string) => Promise<void>
 }) {
-    const { text, date, onTextChange } = props
+    const { id, text, date, onTextChange, onUpdate } = props
     const [isExpanded, setIsExpanded] = useState(false)
     const [hasOverflow, setHasOverflow] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
@@ -68,8 +70,12 @@ export default function ReflectionEntry(props: {
     }
 
     const handleSave = () => {
-        if (onTextChange) {
-            onTextChange(editText)
+        if (onUpdate) {
+            onUpdate(id, editText).then(() => {
+                if (onTextChange) {
+                    onTextChange(editText)
+                }
+            })
         }
         setIsEditing(false)
     }

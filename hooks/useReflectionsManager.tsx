@@ -17,27 +17,45 @@ export function useReflectionsManager() {
         const {data, error} = await supabase.functions.invoke('get-reflection');
         console.log('Raw data from Supabase:', data);
         console.log('Data type:', typeof data);
-        console.log('Is array?', Array.isArray(data));
+        
         if (error) {
             console.error('Error fetching reflections:', error);
             return;
         }
-        // Handle the case where data might be a JSON string
-        let reflectionsArray;
-        if (Array.isArray(data)) {
-            reflectionsArray = data;
-        } else if (typeof data === 'string') {
-            try {
-                const parsed = JSON.parse(data);
-                reflectionsArray = Array.isArray(parsed) ? parsed : [];
-            } catch (e) {
-                console.error('Failed to parse JSON:', e);
-                reflectionsArray = [];
+        
+        // Handle different possible data structures
+        let reflectionsArray: Reflection[] = [];
+        
+        try {
+            // If data is a string, parse it as JSON first
+            let parsedData = data;
+            if (typeof data === 'string') {
+                parsedData = JSON.parse(data);
+                console.log('Parsed data:', parsedData);
             }
-        } else {
+            
+            if (Array.isArray(parsedData)) {
+                reflectionsArray = parsedData;
+            } else if (parsedData && typeof parsedData === 'object') {
+                // Check if data is wrapped in another object
+                if (Array.isArray(parsedData.data)) {
+                    reflectionsArray = parsedData.data;
+                } else if (Array.isArray(parsedData.reflections)) {
+                    reflectionsArray = parsedData.reflections;
+                } else {
+                    // Try to convert the object to an array
+                    reflectionsArray = Object.values(parsedData).filter(item => 
+                        item && typeof item === 'object' && 'id' in item
+                    ) as Reflection[];
+                }
+            }
+        } catch (parseError) {
+            console.error('Error parsing data:', parseError);
             reflectionsArray = [];
         }
-        console.log('Setting reflections to:', reflectionsArray);
+        
+        console.log('Final reflections array:', reflectionsArray);
+        console.log('Array length:', reflectionsArray.length);
         setReflections(reflectionsArray);
     }
 
@@ -52,7 +70,32 @@ export function useReflectionsManager() {
             console.error(error);
             return;
         }
-        return data;
+
+        // Parse the returned reflection data
+        let newReflection: Reflection | null = null;
+        try {
+            // If data is a string, parse it as JSON first
+            let parsedData = data;
+            if (typeof data === 'string') {
+                parsedData = JSON.parse(data);
+                console.log('Parsed save reflection data:', parsedData);
+            }
+            
+            // The parsed data should be the new reflection object
+            if (parsedData && typeof parsedData === 'object' && 'id' in parsedData) {
+                newReflection = parsedData as Reflection;
+            }
+        } catch (parseError) {
+            console.error('Error parsing save reflection data:', parseError);
+        }
+
+        // If we successfully parsed the new reflection, add it to the array
+        if (newReflection) {
+            setReflections(prevReflections => [newReflection!, ...prevReflections]);
+            console.log('Added new reflection to array:', newReflection);
+        }
+
+        return newReflection;
     }
 
     async function updateReflection(id: string, content: string) {

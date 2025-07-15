@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { useReflection } from '@/context/ReflectionProvider'
 
 interface NewReflectionEntryProps {
     suggestPrompt?: string
-    onSave: (text: string) => void
+    onSave?: (text: string) => void
     onCancel: () => void
     placeholder?: string
 }
@@ -18,6 +19,7 @@ export default function NewReflectionEntry({
     const [text, setText] = useState('')
     const [showPrompt, setShowPrompt] = useState(!!suggestPrompt)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const { saveReflection } = useReflection()
 
     // Auto-resize textarea
     useEffect(() => {
@@ -35,10 +37,24 @@ export default function NewReflectionEntry({
         }
     }, [])
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (text.trim()) {
-            onSave(text.trim())
-            setText('')
+            // Extract title from first line or use a default
+            const lines = text.trim().split('\n')
+            const title = lines[0].length > 50 ? lines[0].substring(0, 47) + '...' : lines[0]
+            const content = text.trim()
+            
+            try {
+                await saveReflection(title, content)
+                setText('')
+                // Call optional onSave callback if provided
+                if (onSave) {
+                    onSave(text.trim())
+                }
+            } catch (error) {
+                console.error('Failed to save reflection:', error)
+                // Could add user-facing error handling here
+            }
         }
     }
 

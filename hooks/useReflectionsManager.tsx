@@ -62,7 +62,7 @@ export function useReflectionsManager() {
     async function saveReflection(title: string, content: string) {
         const {data, error} = await supabase.functions.invoke('save-reflection', {
             body: {
-                title,
+                title: title,
                 content
             }
         });

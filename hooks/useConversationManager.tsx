@@ -45,6 +45,7 @@ export function useConversationManager() {
           user_name: 'Nik'
         }
       });
+      
       console.log('Setting mode to voice...');
       setMode('voice');
     } catch (err) {
@@ -93,7 +94,7 @@ export function useConversationManager() {
       console.error('Failed to toggle microphone:', err);
     }
   }
-
+  
   const { messages, input, handleInputChange, handleSubmit } = useChat(); 
 
   return {

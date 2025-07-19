@@ -21,7 +21,37 @@ export default function PricingPage() {
                 <div className="flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-8 max-w-7xl mx-auto pb-12">
 
                     {/* Basic Plan Card */}
-                    <div className="w-full max-w-[340px] h-[470px] lg:h-[470px] bg-white rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
+                    <div className="w-full max-w-[340px] h-[470px] lg:h-[470px] bg-white rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col items-center gap-[32px] transition-all duration-300 hover:shadow-xl">
+                        <h1 className="text-brand-wine text-3xl font-medium">First Steps</h1>
+                        <p className="text-brand-wine text-3xl font-semibold">
+                            Free
+                        </p>
+                        <div className="w-full flex flex-col gap-[8px]">
+                            <div className="w-full h-[1px] bg-brand-softPink"></div>
+                            <p className="text-brand-coral text-[14px] font-medium">Support you'll receive</p>
+                        </div>
+                        <div className="w-full flex flex-col gap-[12px]">
+                            <div className="w-full flex flex-row items-center gap-[4px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">5 minute voice trial</p>
+                            </div>
+                            <div className="w-full flex flex-row gap-[8px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">Limited daily text usage</p>
+                            </div>
+                            <div className="w-full flex flex-row gap-[8px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">Journal space access</p>
+                            </div>
+                           
+                        </div>
+
+                        <div className="flex flex-col h-full w-full justify-end">
+                            <button className="w-full h-[48px] bg-brand-softPink bg-opacity-40 hover:bg-brand-coral transition-all duration-100 text-brand-berry font-medium text-[16px] rounded-2xl">
+                                Continue for free
+                            </button>
+                        </div>
+
 
                     </div>
 
@@ -75,7 +105,40 @@ export default function PricingPage() {
                     </div>
 
                     {/* Premium Plan Card */}
-                    <div className="w-full max-w-[340px] h-[470px] lg:h-[470px] bg-white rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
+                    <div className="w-full max-w-[340px] h-[470px] lg:h-[470px] bg-white rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col items-center gap-[32px] transition-all duration-300 hover:shadow-xl">
+
+                        <h1 className="text-brand-wine text-3xl font-medium">Steady Ground</h1>
+                        <p className="text-brand-wine text-3xl font-semibold">
+                            $5.99 <span className="text-brand-softPink text-sm">/week</span>
+                        </p>
+                        <div className="w-full flex flex-col gap-[8px]">
+                            <div className="w-full h-[1px] bg-brand-softPink"></div>
+                            <p className="text-brand-coral text-[14px] font-medium">Support you'll receive</p>
+                        </div>
+                        <div className="w-full flex flex-col gap-[12px]">
+                            <div className="w-full flex flex-row items-center gap-[4px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">30 minute weekly voice sessions</p>
+                            </div>
+                            <div className="w-full flex flex-row gap-[8px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">Extended daily text usage</p>
+                            </div>
+                            <div className="w-full flex flex-row gap-[8px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">Guided reflection prompts</p>
+                            </div>
+                            <div className="w-full flex flex-row gap-[8px]">
+                                <Check className="w-5 h-5 text-brand-berry" strokeWidth={3} />
+                                <p className="text-brand-berry text-[16px] font-medium">Personalized AI insights</p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col h-full w-full justify-end">
+                            <button className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl">
+                               Take your first step
+                            </button>
+                        </div>
 
                     </div>
 

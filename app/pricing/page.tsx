@@ -1,5 +1,39 @@
+'use client';
+
 import { Check } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+
 export default function PricingPage() {
+    const [loading, setLoading] = useState<string | null>(null);
+    const router = useRouter();
+    const supabase = createClient();
+
+    const handleCheckout = async (priceId: string, planName: string) => {
+        setLoading(planName);
+        
+        try {
+            const { data, error } = await supabase.functions.invoke('stripe-checkout-session', {
+                body: { priceId }
+            });
+
+            if (error) {
+                console.error('Error creating checkout session:', error);
+                return;
+            }
+            console.log(data);
+
+            if (data?.clientSecret) {
+                router.push(`/pricing/checkout?client_secret=${data.clientSecret}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(null);
+        }
+    };
+
     return (
         <div className="w-full min-h-full"
             style={{
@@ -47,8 +81,11 @@ export default function PricingPage() {
                         </div>
 
                         <div className="flex flex-col h-full w-full justify-end">
-                            <button className="w-full h-[48px] bg-brand-softPink bg-opacity-40 hover:bg-brand-coral transition-all duration-100 text-brand-berry hover:text-white font-medium text-[16px] rounded-2xl">
-                                Continue for free
+                            <button 
+                                className="w-full h-[48px] bg-brand-softPink bg-opacity-40 hover:bg-brand-coral transition-all duration-100 text-brand-berry hover:text-white font-medium text-[16px] rounded-2xl"
+                                disabled={loading === 'free'}
+                            >
+                                {loading === 'free' ? 'Processing...' : 'Continue for free'}
                             </button>
                         </div>
 
@@ -96,8 +133,12 @@ export default function PricingPage() {
                             </div>
 
                             <div className="flex flex-col h-full w-full justify-end">
-                                <button className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl">
-                                    Make lasting change
+                                <button 
+                                    className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl disabled:opacity-50"
+                                    onClick={() => handleCheckout('price_1RmOzxL7P5yz9ENNY8C4yLJr', 'premium')}
+                                    disabled={loading === 'premium'}
+                                >
+                                    {loading === 'premium' ? 'Processing...' : 'Make lasting change'}
                                 </button>
                             </div>
 
@@ -135,8 +176,12 @@ export default function PricingPage() {
                         </div>
 
                         <div className="flex flex-col h-full w-full justify-end">
-                            <button className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl">
-                               Take your first step
+                            <button 
+                                className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl disabled:opacity-50"
+                                onClick={() => handleCheckout('price_basic_weekly', 'basic')}
+                                disabled={loading === 'basic'}
+                            >
+                                {loading === 'basic' ? 'Processing...' : 'Take your first step'}
                             </button>
                         </div>
 

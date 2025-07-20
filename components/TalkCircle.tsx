@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion";
 import { useConversation } from "@/context/ConversationProvider";
+import { Send } from "lucide-react";
 
 export default function TalkCircle() {
     const { mode, handleSubmit, input, handleInputChange } = useConversation();
@@ -35,9 +36,9 @@ export default function TalkCircle() {
         >
             {mode === 'text' && (
                 //<form onSubmit={handleSubmit}>
-                <form onSubmit={customHandleSubmit} className="w-full h-full">
+                <form onSubmit={customHandleSubmit} className="w-full h-full relative">
                     <textarea
-                        className="w-full h-full p-4 bg-transparent resize-none outline-none rounded-2xl"
+                        className="w-full h-full p-4 pr-14 bg-transparent resize-none outline-none rounded-2xl"
                         placeholder="Speak your mind..."
                         disabled={mode !== 'text'}
                         value={input}
@@ -49,6 +50,12 @@ export default function TalkCircle() {
                             }
                         }}
                     />
+                    <button
+                        type="submit"
+                        className="absolute bottom-3 right-3 w-10 h-10 bg-brand-coral rounded-full flex items-center justify-center hover:bg-opacity-80 transition-all duration-200"
+                    >
+                        <Send className="w-5 h-5 text-white" />
+                    </button>
                 </form>
             )}
         </motion.div>

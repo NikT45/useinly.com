@@ -29,6 +29,7 @@ function CheckoutContent() {
 
     const options = {
         clientSecret: clientSecret,
+      
     };
 
     return (

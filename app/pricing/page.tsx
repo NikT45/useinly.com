@@ -14,6 +14,11 @@ export default function PricingPage() {
         setLoading(planName);
         
         try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                router.push('/auth/sign-up');
+                return
+            }
             const { data, error } = await supabase.functions.invoke('stripe-checkout-session', {
                 body: { priceId }
             });
@@ -22,7 +27,7 @@ export default function PricingPage() {
                 console.error('Error creating checkout session:', error);
                 return;
             }
-            console.log(data);
+            //console.log(data);
 
             if (data?.clientSecret) {
                 router.push(`/pricing/checkout?client_secret=${data.clientSecret}`);

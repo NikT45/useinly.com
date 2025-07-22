@@ -45,7 +45,9 @@ export default function Home() {
           <h1 className="text-brand-wine text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-medium mb-8">How are you feeling?</h1>
       )}
       {mode === 'text' && (
-            <Chat></Chat>
+        <div className="flex flex-col items-center justify-center w-full">
+            <Chat/>
+        </div>
           )}
         <div className="flex justify-center">
           <TalkCircle/>

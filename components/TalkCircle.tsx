@@ -15,7 +15,7 @@ export default function TalkCircle() {
 
     return (
         <motion.div
-            className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl bg-gray-100' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink' : ''} flex items-center justify-between`}
+            className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl shadow-lg ring-1 ring-gray-500 ring-opacity-10 backdrop-blur-sm' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink' : ''} flex items-center justify-between`}
             animate={{
                 scale: mode === 'voice' ? 1 : mode === 'loading' ? [0.95, 1.05, 0.95] : mode === 'idle' ? [0.9, 0.95, 0.9] : 0.9,
             }}
@@ -42,7 +42,7 @@ export default function TalkCircle() {
         >
             {mode === 'text' && (
                 //<form onSubmit={handleSubmit}>
-                <form onSubmit={customHandleSubmit} className="w-full h-full relative">
+                <form onSubmit={customHandleSubmit} className="w-full h-full">
                     <textarea
                         className="w-full h-full p-4 pr-14 bg-transparent resize-none outline-none rounded-2xl"
                         placeholder="Speak your mind..."

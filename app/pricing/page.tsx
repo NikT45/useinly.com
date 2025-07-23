@@ -183,10 +183,10 @@ export default function PricingPage() {
                         <div className="flex flex-col h-full w-full justify-end">
                             <button 
                                 className="w-full h-[48px] bg-brand-berry hover:bg-brand-coral transition-all duration-100 text-white font-medium text-[16px] rounded-2xl disabled:opacity-50"
-                                onClick={() => handleCheckout('price_basic_weekly', 'basic')}
-                                disabled={loading === 'basic'}
+                                onClick={() => handleCheckout('price_1RmP0UL7P5yz9ENNsCMkiajp', 'Steady Ground')}
+                                disabled={loading === 'Steady Ground'}
                             >
-                                {loading === 'basic' ? 'Processing...' : 'Take your first step'}
+                                {loading === 'Steady Ground' ? 'Processing...' : 'Take your first step'}
                             </button>
                         </div>
 

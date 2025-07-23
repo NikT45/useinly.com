@@ -15,7 +15,7 @@ export default function TalkCircle() {
 
     return (
         <motion.div
-            className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl shadow-lg ring-1 ring-gray-500 ring-opacity-10 backdrop-blur-sm' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink' : ''} flex items-center justify-between`}
+            className={`${mode === 'text' ? 'w-[512px] h-[128px] mt-10 rounded-2xl shadow-lg ring-1 ring-gray-500 ring-opacity-10 backdrop-blur-sm' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink bg-opacity-50' : ''} flex items-center justify-between`}
             animate={{
                 scale: mode === 'voice' ? 1 : mode === 'loading' ? [0.95, 1.05, 0.95] : mode === 'idle' ? [0.9, 0.95, 0.9] : 0.9,
             }}

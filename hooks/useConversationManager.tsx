@@ -1,5 +1,5 @@
 import { useConversation } from '@elevenlabs/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useChat } from '@ai-sdk/react';
 
@@ -7,6 +7,18 @@ export function useConversationManager() {
   const supabase = createClient();
   const [mode, setMode] = useState< 'idle' | 'voice' | 'text' | 'loading'>('idle'); 
   const [micMuted, setMicMuted] = useState(false);
+  // const [minutes_used, setMinutesUsed] = useState(0);
+  // const [minutes_quota, setMinutesQuota] = useState(0);
+  const [minutes_remaining, setMinutesRemaining] = useState(0);
+  
+  useEffect(() => {
+    const fetchMinutesRemaining = async () => {
+      const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota');
+      if (error) throw new Error(error.message);
+      setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
+    };
+    fetchMinutesRemaining();
+     }, []);
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
@@ -111,6 +123,7 @@ export function useConversationManager() {
     messages,
     input, 
     handleInputChange,
-    handleSubmit
+    handleSubmit,
+    minutes_remaining,
   };
 }

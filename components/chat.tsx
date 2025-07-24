@@ -58,7 +58,7 @@ export function Chat() {
                   if (message.role === 'user') {
                       return (<div key={`${message.id}-${i}`} className=" my-4 flex justify-end">{<p className=" bg-brand-softPink bg-opacity-50 text-brand-wine p-2 rounded-2xl">{part.text}</p>}</div>)
                   } else {
-                      return (<div key={`${message.id}-${i}`} className="my-4 flex justify-left">{part.text}</div>)               
+                      return (<div key={`${message.id}-${i}`} className="my-4 flex justify-left text-brand-wine">{part.text}</div>)               
                   }  
               }
             })}

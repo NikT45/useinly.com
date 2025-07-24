@@ -49,14 +49,14 @@ export function Chat() {
   // ]; 
   return (
     <div className="relative">
-      <div className="flex flex-col w-full max-h-full max-w-2xl mx-auto h-90 overflow-y-clip py-4 px-2">
+      <div className={`flex flex-col w-full max-h-full max-w-2xl mx-auto h-90 overflow-y-auto py-4 px-2 ${messages.length > 0 ? 'pb-48' : ''}`}>
         {messages.map(message => (
           <div key={message.id} className="whitespace-pre-wrap">
             {message.parts.map((part, i) => {
               switch (part.type) {
                 case 'text':
                   if (message.role === 'user') {
-                      return (<div key={`${message.id}-${i}`} className=" my-4 flex justify-end">{<p className=" bg-brand-softPink text-brand-wine p-2 rounded-2xl">{part.text}</p>}</div>)
+                      return (<div key={`${message.id}-${i}`} className=" my-4 flex justify-end">{<p className=" bg-brand-softPink bg-opacity-50 text-brand-wine p-2 rounded-2xl">{part.text}</p>}</div>)
                   } else {
                       return (<div key={`${message.id}-${i}`} className="my-4 flex justify-left">{part.text}</div>)               
                   }  

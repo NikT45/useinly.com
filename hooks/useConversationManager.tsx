@@ -10,14 +10,15 @@ export function useConversationManager() {
   // const [minutes_used, setMinutesUsed] = useState(0);
   // const [minutes_quota, setMinutesQuota] = useState(0);
   const [minutes_remaining, setMinutesRemaining] = useState(0);
-  
+  const [messages_remaining, setMessagesRemaining] = useState(0);
   useEffect(() => {
-    const fetchMinutesRemaining = async () => {
-      const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota');
+    const fetchRemaining = async () => {
+      const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota');
       if (error) throw new Error(error.message);
       setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
+      setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
     };
-    fetchMinutesRemaining();
+    fetchRemaining();
      }, []);
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
@@ -125,5 +126,6 @@ export function useConversationManager() {
     handleInputChange,
     handleSubmit,
     minutes_remaining,
+    messages_remaining,
   };
 }

@@ -4,12 +4,13 @@ import { useState, useRef, useEffect } from 'react'
 
 export default function ReflectionEntry(props: {
     id: string
+    title: string
     text: string
     date: string
     onTextChange?: (newText: string) => void
     onUpdate?: (id: string, content: string) => Promise<void>
 }) {
-    const { id, text, date, onTextChange, onUpdate } = props
+    const { id, title, text, date, onTextChange, onUpdate } = props
     const [isExpanded, setIsExpanded] = useState(false)
     const [hasOverflow, setHasOverflow] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
@@ -25,16 +26,16 @@ export default function ReflectionEntry(props: {
             const originalDisplay = element.style.display
             const originalWebkitLineClamp = element.style.webkitLineClamp
             const originalOverflow = element.style.overflow
-            
+
             // Temporarily apply collapsed styles to check overflow
             element.style.display = '-webkit-box'
             element.style.webkitLineClamp = '3'
             element.style.overflow = 'hidden'
-            
+
             // Check if text overflows in collapsed state
             const hasOverflowInCollapsedState = element.scrollHeight > element.clientHeight
             setHasOverflow(hasOverflowInCollapsedState)
-            
+
             // Restore original styles
             if (wasExpanded) {
                 element.style.display = originalDisplay
@@ -99,41 +100,46 @@ export default function ReflectionEntry(props: {
 
     if (isEditing) {
         return (
-            <div className="w-full bg-gray-100 rounded-2xl mb-4 p-4">
-                <div className="flex justify-between items-center mb-2">
-                    <p className="text-xs text-gray-500">{date}</p>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={handleSave}
-                            className="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors"
-                        >
-                            Save
-                        </button>
-                        <button
-                            onClick={handleCancel}
-                            className="text-xs bg-gray-600 text-white px-2 py-1 rounded hover:bg-gray-700 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                    </div>
+            <div className="w-full bg-brand-coral bg-opacity-15 rounded-2xl mb-4 p-4">
+                <div className="flex justify-between items-center mb-4">
+                    <p className="text-xs text-brand-wine opacity-50">{date}</p>
+                    <button
+                        onClick={handleCancel}
+                        className="ml-4 text-brand-wine hover:text-brand-berry transition-colors"
+                        title="Dismiss prompt"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button> 
                 </div>
                 <textarea
                     ref={textareaRef}
                     value={editText}
                     onChange={handleTextChange}
                     onKeyDown={handleKeyDown}
-                    className="w-full p-2 resize-none outline-none rounded-lg bg-white border border-gray-300 focus:border-blue-500 transition-colors overflow-hidden"
+                    className="text-brand-wine w-full p-2 resize-none outline-none rounded-lg bg-white border border-gray-300 focus:border-brand-berry transition-colors overflow-hidden"
                     placeholder="Write your reflection..."
                     autoFocus
                     style={{ minHeight: '100px' }}
                 />
-                <p className="text-xs text-gray-400 mt-1">Press Cmd+Enter to save, Escape to cancel</p>
+                <div className="flex justify-between items-center mt-2">
+                    <p className="text-xs text-brand-wine opacity-50 mt-1">Press Cmd+Enter to save, Escape to cancel</p>
+                    <button
+                        onClick={handleSave}
+                        className="text-xs bg-brand-berry text-white px-4 py-2 rounded-lg hover:bg-brand-coral transition-colors"
+                    >
+                        Save
+                    </button>
+                </div>
             </div>
+
         )
     }
 
     return (
-        <div className="w-full bg-gray-100 rounded-2xl mb-4 overflow-hidden relative">
+        <div className="w-full border border-gray-200 rounded-2xl mb-4 overflow-hidden relative shadow-sm">
             {/* Edit button positioned absolutely */}
             <button
                 onClick={handleEditClick}
@@ -145,18 +151,18 @@ export default function ReflectionEntry(props: {
                     <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
             </button>
-            
+
             {/* Main content area - clickable for expand/collapse */}
             <div
                 onClick={toggleExpanded}
-                className={`p-4 flex flex-col w-full ${hasOverflow ? 'hover:bg-gray-200 cursor-pointer' : 'cursor-default'} transition-colors`}
+                className={`p-4 flex flex-col w-full ${hasOverflow ? 'hover:bg-brand-coral hover:bg-opacity-5 cursor-pointer' : 'cursor-default'} transition-colors`}
             >
                 <p className="text-xs text-gray-500 mb-2 pr-8">{date}</p>
+                {title && <h2 className="text-lg font-semibold text-brand-wine mb-2">{title}</h2>}
                 <div
                     ref={textRef}
-                    className={`w-full text-gray-800 whitespace-pre-wrap ${
-                        !isExpanded ? 'line-clamp-3' : ''
-                    }`}
+                    className={`text-brand-wine w-full text-brand-wine whitespace-pre-wrap ${!isExpanded ? 'line-clamp-3' : ''
+                        }`}
                     style={{
                         display: '-webkit-box',
                         WebkitLineClamp: !isExpanded ? 3 : 'none',
@@ -167,7 +173,7 @@ export default function ReflectionEntry(props: {
                     {text}
                 </div>
                 {hasOverflow && (
-                    <div className="mt-2 text-xs text-blue-600 font-medium">
+                    <div className="mt-2 text-xs text-brand-coral font-medium">
                         {isExpanded ? 'Show less' : 'Show more'}
                     </div>
                 )}

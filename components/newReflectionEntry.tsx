@@ -46,7 +46,7 @@ export default function NewReflectionEntry({
             // Extract title from first line or use a default
             const lines = text.trim().split('\n')
             //keeping title empty for now
-            const title = ""
+            const title = suggestedPrompt || null;
             const content = text.trim()
 
             try {
@@ -88,7 +88,7 @@ export default function NewReflectionEntry({
     }
 
     return (
-        <div className="w-full bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm ">
+        <div className="w-full bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm relative">
             {/* Header with date and action buttons */}
             <div className="flex justify-between items-center mb-2">
                 <p className="text-xs text-gray-500">
@@ -149,6 +149,16 @@ export default function NewReflectionEntry({
                 <p className="text-xs text-gray-400">Press Cmd+Enter to save, Escape to cancel</p>
                 <p className="text-xs text-gray-400">{text.length} characters</p>
             </div> */}
+
+            {/* Save button - appears when there's text */}
+            {text.trim() && (
+                <button
+                    onClick={handleSave}
+                    className="absolute bottom-4 right-4 bg-brand-berry text-white px-4 py-2 rounded-lg hover:bg-brand-coral transition-colors text-sm font-medium"
+                >
+                    Save
+                </button>
+            )}
         </div>
     )
 } 

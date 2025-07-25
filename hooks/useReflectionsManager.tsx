@@ -24,52 +24,17 @@ export function useReflectionsManager() {
     }, []);
 
     async function getReflections() {
-        const {data, error} = await supabase.functions.invoke('get-reflection');
-        console.log('Raw data from Supabase:', data);
-        console.log('Data type:', typeof data);
+        const {data, error} = await supabase.from('reflections').select('*').order('created_at', { ascending: false });
         
         if (error) {
             console.error('Error fetching reflections:', error);
             return;
         }
         
-        // Handle different possible data structures
-        let reflectionsArray: Reflection[] = [];
-        
-        try {
-            // If data is a string, parse it as JSON first
-            let parsedData = data;
-            if (typeof data === 'string') {
-                parsedData = JSON.parse(data);
-                console.log('Parsed data:', parsedData);
-            }
-            
-            if (Array.isArray(parsedData)) {
-                reflectionsArray = parsedData;
-            } else if (parsedData && typeof parsedData === 'object') {
-                // Check if data is wrapped in another object
-                if (Array.isArray(parsedData.data)) {
-                    reflectionsArray = parsedData.data;
-                } else if (Array.isArray(parsedData.reflections)) {
-                    reflectionsArray = parsedData.reflections;
-                } else {
-                    // Try to convert the object to an array
-                    reflectionsArray = Object.values(parsedData).filter(item => 
-                        item && typeof item === 'object' && 'id' in item
-                    ) as Reflection[];
-                }
-            }
-        } catch (parseError) {
-            console.error('Error parsing data:', parseError);
-            reflectionsArray = [];
-        }
-        
-        console.log('Final reflections array:', reflectionsArray);
-        console.log('Array length:', reflectionsArray.length);
-        setReflections(reflectionsArray);
+        setReflections(data || []);
     }
 
-    async function saveReflection(title: string, content: string) {
+    async function saveReflection(title: string | null, content: string) {
         const {data, error} = await supabase.functions.invoke('save-reflection', {
             body: {
                 title: title,

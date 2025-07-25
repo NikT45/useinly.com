@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { useReflection } from '@/context/ReflectionProvider'
 
 export default function ReflectionEntry(props: {
     id: string
@@ -8,9 +9,10 @@ export default function ReflectionEntry(props: {
     text: string
     date: string
     onTextChange?: (newText: string) => void
-    onUpdate?: (id: string, content: string) => Promise<void>
+    onUpdate?: (id: string, content: string, title?: string) => Promise<void>
 }) {
     const { id, title, text, date, onTextChange, onUpdate } = props
+    const { updateReflection } = useReflection()
     
     // Format the date for display
     const formatDate = (dateString: string) => {
@@ -32,6 +34,7 @@ export default function ReflectionEntry(props: {
     const [hasOverflow, setHasOverflow] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [editText, setEditText] = useState(text)
+    const [editTitle, setEditTitle] = useState(title)
     const textRef = useRef<HTMLDivElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -83,23 +86,34 @@ export default function ReflectionEntry(props: {
         e.stopPropagation()
         setIsEditing(true)
         setEditText(text)
+        setEditTitle(title)
         // Reset expanded state when entering edit mode
         setIsExpanded(false)
     }
 
-    const handleSave = () => {
-        if (onUpdate) {
-            onUpdate(id, editText).then(() => {
-                if (onTextChange) {
-                    onTextChange(editText)
-                }
-            })
+    const handleSave = async () => {
+        try {
+            // Call updateReflection from context
+            await updateReflection(id, editText, editTitle || null)
+            
+            // Also call onUpdate prop if provided for backward compatibility
+            if (onUpdate) {
+                await onUpdate(id, editText, editTitle)
+            }
+            
+            if (onTextChange) {
+                onTextChange(editText)
+            }
+            
+            setIsEditing(false)
+        } catch (error) {
+            console.error('Error updating reflection:', error)
         }
-        setIsEditing(false)
     }
 
     const handleCancel = () => {
         setEditText(text)
+        setEditTitle(title)
         setIsEditing(false)
     }
 
@@ -122,7 +136,7 @@ export default function ReflectionEntry(props: {
                     <p className="text-xs text-brand-wine opacity-50">{formattedDate}</p>
                     <button
                         onClick={handleCancel}
-                        className="ml-4 text-brand-wine hover:text-brand-berry transition-colors"
+                        className="text-brand-wine hover:text-brand-berry transition-colors"
                         title="Dismiss prompt"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -131,6 +145,13 @@ export default function ReflectionEntry(props: {
                         </svg>
                     </button> 
                 </div>
+                <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="text-brand-wine w-full p-2 mb-3 outline-none rounded-lg bg-white border border-gray-300 focus:border-brand-berry transition-colors text-lg font-semibold"
+                    placeholder="Reflection title (optional)"
+                />
                 <textarea
                     ref={textareaRef}
                     value={editText}

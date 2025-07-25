@@ -35,63 +35,25 @@ export function useReflectionsManager() {
     }
 
     async function saveReflection(title: string | null, content: string) {
-        const {data, error} = await supabase.functions.invoke('save-reflection', {
-            body: {
-                title: title,
-                content
-            }
-        });
-        if (error) {
-            console.error(error);
-            return;
-        }
-
-        // Parse the returned reflection data
-        let newReflection: Reflection | null = null;
-        try {
-            // If data is a string, parse it as JSON first
-            let parsedData = data;
-            if (typeof data === 'string') {
-                parsedData = JSON.parse(data);
-                console.log('Parsed save reflection data:', parsedData);
-            }
-            
-            // The parsed data should be the new reflection object
-            if (parsedData && typeof parsedData === 'object' && 'id' in parsedData) {
-                newReflection = parsedData as Reflection;
-            }
-        } catch (parseError) {
-            console.error('Error parsing save reflection data:', parseError);
-        }
-
-        // If we successfully parsed the new reflection, add it to the array
-        if (newReflection) {
-            setReflections(prevReflections => [newReflection!, ...prevReflections]);
-            console.log('Added new reflection to array:', newReflection);
-        }
-
-        return newReflection;
-    }
-
-    async function updateReflection(id: string, content: string) {
-        const {data, error} = await supabase.functions.invoke('update-reflection', {
-            body: {
-                id,
-                content,
-            }
+        const {data, error} = await supabase.from('reflections').insert({
+            title: title,
+            content: content
         });
         if (error) throw error;
-        
-        // Update the local state to reflect the changes immediately
-        setReflections(prevReflections => 
-            prevReflections.map(reflection => 
-                reflection.id === id 
-                    ? { ...reflection, content } 
-                    : reflection
-            )
-        );
-        
-        return data;
+
+        getReflections();
+     
+    }
+
+    async function updateReflection(id: string, content: string, title:string | null) {
+        const {data, error} = await supabase.from('reflections').update({
+            title: title,
+            content: content
+        }).eq('id', id);
+        if (error) throw error;
+
+        getReflections();
+    
     }
 
     return {

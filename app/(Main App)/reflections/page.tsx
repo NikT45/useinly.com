@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 export default function Reflections() {
 
-    const {reflections, getReflections, updateReflection} = useReflection();
+    const { reflections, getReflections, updateReflection } = useReflection();
 
     useEffect(() => {
         getReflections();
@@ -15,16 +15,21 @@ export default function Reflections() {
 
 
     return (
-        <div className="mt-32 flex-1 flex flex-col items-center h-full w-full">
+
+        <div className=" flex-1 flex flex-col items-center h-full w-full">
+            <div className="flex w-[70%] mt-10 flex-col items-start my-12">
+                <h2 className="text-[64px] text-brand-wine font-semibold">Check-ins</h2>
+                <p className="italic text-brand-wine ">the more you write, the more we can help. </p>
+            </div>
             <div className="flex-1 flex flex-col items-center h-full w-[70%]">
-                <NewReflectionEntry onSave={() => {}} onCancel={() => {}} suggestPrompt="What did you do today?" />
+                <NewReflectionEntry onSave={() => { }} onCancel={() => { }} suggestPrompt="What did you do today?" />
                 {/* <p>{reflections.length}</p> */}
                 {reflections.map((reflection, index) => (
                     <div key={index} className="flex flex-col w-[95%]">
-                        <ReflectionEntry 
+                        <ReflectionEntry
                             id={reflection.id}
                             title={reflection.title}
-                            text={reflection.content} 
+                            text={reflection.content}
                             date={reflection.created_at}
                         />
                     </div>

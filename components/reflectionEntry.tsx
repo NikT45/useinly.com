@@ -141,13 +141,13 @@ export default function ReflectionEntry(props: {
                         </svg>
                     </button> 
                 </div>
-                <input
+                {/* <input
                     type="text"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
                     className="text-brand-wine w-full p-2 mb-3 outline-none rounded-lg bg-white border border-gray-300 focus:border-brand-berry transition-colors text-lg font-semibold"
                     placeholder="Reflection title (optional)"
-                />
+                /> */}
                 <textarea
                     ref={textareaRef}
                     value={editText}

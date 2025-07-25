@@ -10,16 +10,20 @@ interface NewReflectionEntryProps {
     placeholder?: string
 }
 
-export default function NewReflectionEntry({ 
-    suggestPrompt = '', 
+export default function NewReflectionEntry({
     onSave, 
     onCancel, 
     placeholder = "Write your reflection..." 
 }: NewReflectionEntryProps) {
     const [text, setText] = useState('')
-    const [showPrompt, setShowPrompt] = useState(!!suggestPrompt)
+    const [showPrompt, setShowPrompt] = useState(false)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
-    const { saveReflection } = useReflection()
+    const { saveReflection, suggestedPrompt } = useReflection()
+    useEffect(() => {
+        if (suggestedPrompt) {
+            setShowPrompt(true)
+        }
+    }, [suggestedPrompt])
 
     // Auto-resize textarea
     useEffect(() => {
@@ -113,7 +117,7 @@ export default function NewReflectionEntry({
             </div>
 
             {/* Suggested prompt section */}
-            {showPrompt && suggestPrompt && (
+            {showPrompt && suggestedPrompt && (
                 <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                         <h4 className="text-sm font-medium text-blue-900">Suggested Prompt</h4>
@@ -128,7 +132,7 @@ export default function NewReflectionEntry({
                             </svg>
                         </button>
                     </div>
-                    <p className="text-sm text-blue-800 mb-3">{suggestPrompt}</p>
+                    <p className="text-sm text-blue-800 mb-3">{suggestedPrompt}</p>
                 </div>
             )}
 

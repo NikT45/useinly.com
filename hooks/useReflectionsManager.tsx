@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Reflection {
     id: string;
@@ -12,6 +12,16 @@ interface Reflection {
 export function useReflectionsManager() {
     const supabase = createClient();
     const [reflections, setReflections] = useState<Reflection[]>([]);
+    const [suggestedPrompt, setSuggestedPrompt] = useState<string>('');
+    useEffect(() => {
+        const fetchSuggestedPrompt = async () => {
+            const {data, error} = await supabase.from('prompts').select('prompt');
+            if (error) throw error;
+            console.log(data);
+            setSuggestedPrompt(data[0].prompt);
+        }
+        fetchSuggestedPrompt();
+    }, []);
 
     async function getReflections() {
         const {data, error} = await supabase.functions.invoke('get-reflection');
@@ -124,5 +134,6 @@ export function useReflectionsManager() {
         getReflections,
         saveReflection,
         updateReflection,
+        suggestedPrompt,
     }
 }

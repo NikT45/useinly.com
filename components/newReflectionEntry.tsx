@@ -11,9 +11,9 @@ interface NewReflectionEntryProps {
 }
 
 export default function NewReflectionEntry({
-    onSave, 
-    onCancel, 
-    placeholder = "Write your reflection..." 
+    onSave,
+    onCancel,
+    placeholder = "Write your reflection..."
 }: NewReflectionEntryProps) {
     const [text, setText] = useState('')
     const [showPrompt, setShowPrompt] = useState(false)
@@ -48,7 +48,7 @@ export default function NewReflectionEntry({
             //keeping title empty for now
             const title = ""
             const content = text.trim()
-            
+
             try {
                 await saveReflection(title, content)
                 setText('')
@@ -88,18 +88,18 @@ export default function NewReflectionEntry({
     }
 
     return (
-        <div className="w-full bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm">
+        <div className="w-full bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm ">
             {/* Header with date and action buttons */}
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-2">
                 <p className="text-xs text-gray-500">
-                    {new Date().toLocaleDateString('en-US', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
+                    {new Date().toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                     })}
                 </p>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <button
                         onClick={handleSave}
                         disabled={!text.trim()}
@@ -113,26 +113,23 @@ export default function NewReflectionEntry({
                     >
                         Cancel
                     </button>
-                </div>
+                </div> */}
             </div>
 
             {/* Suggested prompt section */}
             {showPrompt && suggestedPrompt && (
-                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                        <h4 className="text-sm font-medium text-blue-900">Suggested Prompt</h4>
-                        <button
-                            onClick={handleDismissPrompt}
-                            className="text-blue-400 hover:text-blue-600 transition-colors"
-                            title="Dismiss prompt"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <p className="text-sm text-blue-800 mb-3">{suggestedPrompt}</p>
+                <div className="px-2 rounded-lg flex justify-between items-start">
+                    <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-brand-wine ">{suggestedPrompt}</h2>
+                    <button
+                        onClick={handleDismissPrompt}
+                        className="ml-4 text-brand-wine hover:text-brand-berry transition-colors"
+                        title="Dismiss prompt"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
             )}
 
@@ -142,16 +139,16 @@ export default function NewReflectionEntry({
                 value={text}
                 onChange={handleTextChange}
                 onKeyDown={handleKeyDown}
-                className="w-full p-3 resize-none outline-none rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors overflow-hidden"
+                className="w-full p-3 resize-none outline-none rounded-lg focus:border-brand-berry  transition-colors overflow-hidden"
                 placeholder={placeholder}
                 style={{ minHeight: '120px' }}
             />
-            
+
             {/* Helper text */}
-            <div className="flex justify-between items-center mt-2">
+            {/* <div className="flex justify-between items-center mt-2">
                 <p className="text-xs text-gray-400">Press Cmd+Enter to save, Escape to cancel</p>
                 <p className="text-xs text-gray-400">{text.length} characters</p>
-            </div>
+            </div> */}
         </div>
     )
 } 

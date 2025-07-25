@@ -11,6 +11,23 @@ export default function ReflectionEntry(props: {
     onUpdate?: (id: string, content: string) => Promise<void>
 }) {
     const { id, title, text, date, onTextChange, onUpdate } = props
+    
+    // Format the date for display
+    const formatDate = (dateString: string) => {
+        try {
+            const date = new Date(dateString)
+            return date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric', 
+                month: 'long',
+                day: 'numeric'
+            })
+        } catch (error) {
+            return dateString // fallback to original string if parsing fails
+        }
+    }
+    
+    const formattedDate = formatDate(date)
     const [isExpanded, setIsExpanded] = useState(false)
     const [hasOverflow, setHasOverflow] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
@@ -102,7 +119,7 @@ export default function ReflectionEntry(props: {
         return (
             <div className="w-full bg-brand-coral bg-opacity-15 rounded-2xl mb-4 p-4">
                 <div className="flex justify-between items-center mb-4">
-                    <p className="text-xs text-brand-wine opacity-50">{date}</p>
+                    <p className="text-xs text-brand-wine opacity-50">{formattedDate}</p>
                     <button
                         onClick={handleCancel}
                         className="ml-4 text-brand-wine hover:text-brand-berry transition-colors"
@@ -157,7 +174,7 @@ export default function ReflectionEntry(props: {
                 onClick={toggleExpanded}
                 className={`p-4 flex flex-col w-full ${hasOverflow ? 'hover:bg-brand-coral hover:bg-opacity-5 cursor-pointer' : 'cursor-default'} transition-colors`}
             >
-                <p className="text-xs text-gray-500 mb-2 pr-8">{date}</p>
+                <p className="text-xs text-gray-500 mb-2 pr-8">{formattedDate}</p>
                 {title && <h2 className="text-lg font-semibold text-brand-wine mb-2">{title}</h2>}
                 <div
                     ref={textRef}

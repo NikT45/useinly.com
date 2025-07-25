@@ -9,9 +9,8 @@ export default function ReflectionEntry(props: {
     text: string
     date: string
     onTextChange?: (newText: string) => void
-    onUpdate?: (id: string, content: string, title?: string) => Promise<void>
 }) {
-    const { id, title, text, date, onTextChange, onUpdate } = props
+    const { id, title, text, date, onTextChange} = props
     const { updateReflection } = useReflection()
     
     // Format the date for display
@@ -97,10 +96,7 @@ export default function ReflectionEntry(props: {
             await updateReflection(id, editText, editTitle || null)
             
             // Also call onUpdate prop if provided for backward compatibility
-            if (onUpdate) {
-                await onUpdate(id, editText, editTitle)
-            }
-            
+           
             if (onTextChange) {
                 onTextChange(editText)
             }

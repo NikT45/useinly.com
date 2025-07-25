@@ -12,14 +12,7 @@ export default function Reflections() {
         getReflections();
     }, []);
 
-    const handleUpdateReflection = async (id: string, content: string) => {
-        try {
-            await updateReflection(id, content);
-        } catch (error) {
-            console.error('Failed to update reflection:', error);
-            // Could add user-facing error handling here
-        }
-    };
+
 
     return (
         <div className="mt-32 flex-1 flex flex-col items-center h-full w-full">
@@ -33,7 +26,6 @@ export default function Reflections() {
                             title={reflection.title}
                             text={reflection.content} 
                             date={reflection.created_at}
-                            onUpdate={handleUpdateReflection}
                         />
                     </div>
                 ))}

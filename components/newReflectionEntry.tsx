@@ -88,7 +88,7 @@ export default function NewReflectionEntry({
     }
 
     return (
-        <div className="w-full bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm relative">
+        <div className={`${showPrompt && suggestedPrompt ? 'w-full' : 'w-[95%]'} bg-white border border-gray-200 rounded-2xl mb-4 p-4 shadow-sm relative`}>
             {/* Header with date and action buttons */}
             <div className="flex justify-between items-center mb-2">
                 <p className="text-xs text-gray-500">

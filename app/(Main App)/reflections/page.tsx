@@ -20,7 +20,7 @@ export default function Reflections() {
                 <NewReflectionEntry onSave={() => {}} onCancel={() => {}} suggestPrompt="What did you do today?" />
                 {/* <p>{reflections.length}</p> */}
                 {reflections.map((reflection, index) => (
-                    <div key={index} className="flex flex-col w-full">
+                    <div key={index} className="flex flex-col w-[95%]">
                         <ReflectionEntry 
                             id={reflection.id}
                             title={reflection.title}

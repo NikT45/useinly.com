@@ -31,6 +31,7 @@ interface UserData {
     frequency: number;
     trigger: string;
   }>;
+  planTier: string;
 }
 
 export default function Settings() {
@@ -42,6 +43,7 @@ export default function Settings() {
     lastName: "",
     goals: "",
     habits: [],
+    planTier: "",
   });
 
   // Current habit being edited
@@ -86,7 +88,7 @@ export default function Settings() {
 
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('first_name, last_name, context')
+          .select('first_name, last_name, context, plan_tier')
           .eq('user_id', user.id)
           .single();
 
@@ -98,6 +100,7 @@ export default function Settings() {
             lastName: profile.last_name || "",
             goals: profile.context?.goals || "",
             habits: profile.context?.habits || [],
+            planTier: profile.plan_tier || "",
           });
         }
       } catch (error) {
@@ -196,6 +199,10 @@ export default function Settings() {
     } catch (error) {
       console.error('Error invoking edge function:', error);
     }
+  };
+
+  const handleUpgrade = () => {
+    router.push('/pricing');
   };
 
   const handleDeleteAccount = async () => {
@@ -404,13 +411,23 @@ export default function Settings() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                onClick={handleManageSubscription}
-                className="bg-brand-berry hover:bg-brand-berry/90 text-white"
-              >
-                <CreditCard className="mr-2 h-4 w-4" />
-                Manage Subscription
-              </Button>
+              {data.planTier === 'free' ? (
+                <Button 
+                  onClick={handleUpgrade}
+                  className="bg-brand-berry hover:bg-brand-berry/90 text-white"
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Upgrade Plan
+                </Button>
+              ) : (
+                <Button 
+                  onClick={handleManageSubscription}
+                  className="bg-brand-berry hover:bg-brand-berry/90 text-white"
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Manage Subscription
+                </Button>
+              )}
               
               <Button 
                 variant="outline"

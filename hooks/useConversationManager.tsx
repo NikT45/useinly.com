@@ -7,19 +7,75 @@ export function useConversationManager() {
   const supabase = createClient();
   const [mode, setMode] = useState<'idle' | 'voice' | 'text' | 'loading'>('idle');
   const [micMuted, setMicMuted] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   // const [minutes_used, setMinutesUsed] = useState(0);
   // const [minutes_quota, setMinutesQuota] = useState(0);
   const [minutes_remaining, setMinutesRemaining] = useState(0);
   const [messages_remaining, setMessagesRemaining] = useState(0);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [context, setContext] = useState('');
+
+  // Check authentication state first
   useEffect(() => {
-    const fetchRemaining = async () => {
-      const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota');
-      if (error) throw new Error(error.message);
-      setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
-      setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
+    const checkAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) {
+          console.error('Auth check error:', error);
+          setIsAuthenticated(false);
+        } else if (data?.user) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsCheckingAuth(false);
+      }
     };
+
+    checkAuth();
+  }, [supabase.auth]);
+
+  // Only fetch data after authentication is confirmed
+  useEffect(() => {
+    if (!isAuthenticated || isCheckingAuth) return;
+
+    const fetchRemaining = async () => {
+      try {
+        const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota');
+        if (error) throw new Error(error.message);
+        if (data && data.length > 0) {
+          setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
+          setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
+        }
+      } catch (error) {
+        console.error('Failed to fetch remaining usage:', error);
+      }
+    };
+
+    const fetchProfile = async () => {
+      try {
+        const { data, error } = await supabase.from('profiles').select('first_name,last_name,context');
+        if (error) throw new Error(error.message);
+        if (data && data.length > 0) {
+          setFirstName(data[0].first_name || '');
+          setLastName(data[0].last_name || '');
+          setContext(data[0].context || '');
+        }
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+      }
+    };
+
     fetchRemaining();
-  }, []);
+    fetchProfile();
+  }, [isAuthenticated, isCheckingAuth, supabase]);
+
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
@@ -38,6 +94,14 @@ export function useConversationManager() {
   async function startConversation() {
     setMode('loading')
     console.log('startConversation called, current mode:', mode);
+    
+    // Check authentication before proceeding
+    if (!isAuthenticated) {
+      console.error('User not authenticated');
+      setMode('idle');
+      return;
+    }
+
     try {
       console.log('Requesting microphone permission...');
       await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -50,11 +114,11 @@ export function useConversationManager() {
         throw new Error('No authenticated user found');
       }
 
-      console.log('Starting conversation session...');
+      console.log('Starting conversation session...', user?.id);
       await conversation.startSession({
         signedUrl,
         dynamicVariables: {
-          user_name: 'Bob',
+          user_name: firstName || 'User',
           userId: user?.id || 'anonymous'
         }
       });
@@ -63,7 +127,7 @@ export function useConversationManager() {
       setMode('voice');
     } catch (err) {
       console.error('Start conversation failed:', err);
-      // Don't change mode if there's an error
+      setMode('idle');
     }
   }
 
@@ -127,5 +191,10 @@ export function useConversationManager() {
     handleSubmit,
     minutes_remaining,
     messages_remaining,
+    isAuthenticated,
+    isCheckingAuth,
+    firstName,
+    lastName,
+    context,
   };
 }

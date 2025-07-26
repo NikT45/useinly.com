@@ -4,7 +4,7 @@ import { useConversation } from "@/context/ConversationProvider";
 import { Send, ArrowLeft } from "lucide-react";
 
 export default function TalkCircle() {
-    const { mode, handleSubmit, input, handleInputChange, messages_remaining, setMode } = useConversation();
+    const { mode, handleSubmit, input, handleInputChange, messages_remaining, setMode, audioLevel } = useConversation();
 
     function customHandleSubmit(e?: React.FormEvent) {
         if (e) e.preventDefault();
@@ -12,6 +12,15 @@ export default function TalkCircle() {
         handleSubmit();
         // rest of your logic
     }
+
+    // Calculate dynamic scale based on audio level
+    const getVoiceScale = () => {
+        if (mode === 'voice' && audioLevel !== undefined) {
+            // Base scale of 1.0, with audio-reactive scaling from 0.95 to 1.15
+            return 1.0 + (audioLevel * 0.2) - 0.05;
+        }
+        return 1; // Default scale for voice mode
+    };
 
     return (
         <div className="flex flex-col items-center justify-center">
@@ -36,10 +45,17 @@ export default function TalkCircle() {
             <motion.div
                 className={`${mode === 'text' ? 'w-[512px] h-[128px] rounded-2xl shadow-lg ring-1 ring-gray-500 ring-opacity-10 backdrop-blur-sm' : 'rounded-full w-[300px] h-[300px]'} ${mode === 'voice' ? 'bg-brand-coral' : mode === 'idle' || mode === 'loading' ? 'bg-brand-softPink bg-opacity-50' : ''} flex items-center justify-between`}
                 animate={{
-                    scale: mode === 'voice' ? 1 : mode === 'loading' ? [0.95, 1.05, 0.95] : mode === 'idle' ? [0.9, 0.95, 0.9] : 0.9,
+                    scale: mode === 'voice' ? getVoiceScale() : mode === 'loading' ? [0.95, 1.05, 0.95] : mode === 'idle' ? [0.9, 0.95, 0.9] : 0.9,
                 }}
                 transition={{
-                    ...(mode === 'loading'
+                    ...(mode === 'voice'
+                        ? {
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 5,
+                            mass: 0.8
+                        }
+                        : mode === 'loading'
                         ? {
                             repeat: Infinity,
                             duration: 1.5,

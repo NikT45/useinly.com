@@ -1,5 +1,5 @@
 import { useConversation } from '@elevenlabs/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useChat } from '@ai-sdk/react';
 
@@ -17,6 +17,13 @@ export function useConversationManager() {
   const [lastName, setLastName] = useState('');
   const [context, setContext] = useState('');
   const [conversationSummary, setConversationSummary] = useState('');
+  
+  // Audio analysis state
+  const [audioLevel, setAudioLevel] = useState(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
   // Check authentication state first
   useEffect(() => {
     const checkAuth = async () => {
@@ -40,6 +47,8 @@ export function useConversationManager() {
 
     checkAuth();
   }, [supabase.auth]);
+
+
 
   // Only fetch data after authentication is confirmed
   useEffect(() => {
@@ -89,6 +98,55 @@ export function useConversationManager() {
     onError: (error) => console.error('Error:', error),
     micMuted: micMuted,
   });
+
+  // Audio analysis setup - simpler approach using isSpeaking state with enhanced animation
+  const setupAudioAnalysis = useCallback(() => {
+    if (mode === 'voice') {
+      // Start audio level simulation based on isSpeaking
+      const simulateAudioLevel = () => {
+        if (mode === 'voice') {
+          if (conversation?.isSpeaking) {
+            // Generate pseudo-random audio levels when speaking
+            const baseLevel = 0.3 + Math.random() * 0.4; // Base level between 0.3-0.7
+            const variation = Math.sin(Date.now() * 0.01) * 0.2; // Smooth oscillation
+            const randomSpikes = Math.random() > 0.8 ? Math.random() * 0.3 : 0; // Occasional spikes
+            
+            const level = Math.min(baseLevel + variation + randomSpikes, 1);
+            setAudioLevel(level);
+          } else {
+            // Gradually fade to idle level when not speaking
+            setAudioLevel(prev => Math.max(prev * 0.95, 0.1));
+          }
+          
+          animationFrameRef.current = requestAnimationFrame(simulateAudioLevel);
+        }
+      };
+      
+      simulateAudioLevel();
+    }
+  }, [mode, conversation?.isSpeaking]);
+
+  const cleanupAudioAnalysis = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    
+    setAudioLevel(0);
+  }, []);
+
+  // Set up audio analysis when entering voice mode
+  useEffect(() => {
+    if (mode === 'voice') {
+      setupAudioAnalysis();
+    } else {
+      cleanupAudioAnalysis();
+    }
+
+    return () => {
+      cleanupAudioAnalysis();
+    };
+  }, [mode, setupAudioAnalysis, cleanupAudioAnalysis]);
 
   const getSignedUrl = async (): Promise<string> => {
     const { data, error } = await supabase.functions.invoke('get-signed-url');
@@ -204,5 +262,6 @@ export function useConversationManager() {
     firstName,
     lastName,
     context,
+    audioLevel,
   };
 }

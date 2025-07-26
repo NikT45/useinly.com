@@ -17,8 +17,8 @@ export default function HeaderNav() {
             <button onClick={() => router.push('/reflections')} className={`w-10 h-10 rounded-full flex items-center hover:bg-brand-berry justify-center flex-shrink-0 group ${isReflections ? 'bg-brand-berry' : ''}`}>
                 <NotebookPen size={24} className={`${isReflections ? 'text-white' : 'text-brand-berry group-hover:text-white'}`} strokeWidth={2} />
             </button>
-            <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-brand-berry flex-shrink-0 group">
-                <Lightbulb size={24} className="text-brand-berry group-hover:text-white" strokeWidth={2} />
+            <button onClick={() => router.push('/insights')} className={`w-10 h-10 rounded-full flex items-center hover:bg-brand-berry justify-center flex-shrink-0 group ${isInsights ? 'bg-brand-berry' : ''}`}>
+                <Lightbulb size={24} className={`${isInsights ? 'text-white' : 'text-brand-berry group-hover:text-white'}`} strokeWidth={2} />
             </button>
         </nav>
     )

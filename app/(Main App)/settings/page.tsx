@@ -177,9 +177,25 @@ export default function Settings() {
     }));
   };
 
-  const handleManageSubscription = () => {
-    // Redirect to your billing/subscription management
-    router.push("/pricing");
+  const handleManageSubscription = async () => {
+    const supabase = createClient();
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('get-customer-portal');
+      
+      if (error) {
+        console.error('Error calling get-customer-portal:', error);
+        return;
+      }
+      
+      console.log('Customer portal data:', data);
+      
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error invoking edge function:', error);
+    }
   };
 
   const handleDeleteAccount = async () => {

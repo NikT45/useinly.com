@@ -5,7 +5,7 @@ import { useChat } from '@ai-sdk/react';
 
 export function useConversationManager() {
   const supabase = createClient();
-  const [mode, setMode] = useState< 'idle' | 'voice' | 'text' | 'loading'>('idle'); 
+  const [mode, setMode] = useState<'idle' | 'voice' | 'text' | 'loading'>('idle');
   const [micMuted, setMicMuted] = useState(false);
   // const [minutes_used, setMinutesUsed] = useState(0);
   // const [minutes_quota, setMinutesQuota] = useState(0);
@@ -19,7 +19,7 @@ export function useConversationManager() {
       setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
     };
     fetchRemaining();
-     }, []);
+  }, []);
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
@@ -43,27 +43,27 @@ export function useConversationManager() {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       console.log('Getting signed URL...');
       const signedUrl = await getSignedUrl();
-      
+
       // Get current user from Supabase
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         throw new Error('No authenticated user found');
       }
-      
+
       console.log('Starting conversation session...');
-      await conversation.startSession({ 
+      await conversation.startSession({
         signedUrl,
-        userId: user.id,
         dynamicVariables: {
-          user_name: 'Nik'
+          user_name: 'Bob',
+          userId: user?.id || 'anonymous'
         }
       });
-      
+
       console.log('Setting mode to voice...');
       setMode('voice');
     } catch (err) {
-        console.error('Start conversation failed:', err);
-        // Don't change mode if there's an error
+      console.error('Start conversation failed:', err);
+      // Don't change mode if there's an error
     }
   }
 
@@ -77,11 +77,11 @@ export function useConversationManager() {
       console.error('Failed to stop conversation:', err);
     }
   }
-  
+
 
   function muteMicrophone() {
     try {
-     
+
       setMicMuted(true);
       console.log('Microphone muted');
     } catch (err) {
@@ -107,8 +107,8 @@ export function useConversationManager() {
       console.error('Failed to toggle microphone:', err);
     }
   }
-  
-  const { messages, input, handleInputChange, handleSubmit } = useChat(); 
+
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   return {
     status: conversation?.status,
@@ -122,7 +122,7 @@ export function useConversationManager() {
     mode,
     setMode,
     messages,
-    input, 
+    input,
     handleInputChange,
     handleSubmit,
     minutes_remaining,

@@ -16,7 +16,7 @@ export function useConversationManager() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [context, setContext] = useState('');
-
+  const [conversationSummary, setConversationSummary] = useState('');
   // Check authentication state first
   useEffect(() => {
     const checkAuth = async () => {
@@ -66,6 +66,12 @@ export function useConversationManager() {
           setFirstName(data[0].first_name || '');
           setLastName(data[0].last_name || '');
           setContext(data[0].context || '');
+        }
+        const {data: {user}} = await supabase.auth.getUser();
+        const {data: conversationData, error: conversationError} = await supabase.from('conversations').select('summary').eq('user_id', user?.id).order('created_at', { ascending: false }).limit(1);
+        if (conversationError) throw new Error(conversationError.message);
+        if (conversationData && conversationData.length > 0) {
+          setConversationSummary(conversationData[0].summary || '');
         }
       } catch (error) {
         console.error('Failed to fetch profile:', error);
@@ -119,7 +125,9 @@ export function useConversationManager() {
         signedUrl,
         dynamicVariables: {
           user_name: firstName || 'User',
-          userId: user?.id || 'anonymous'
+          userId: user?.id || 'anonymous',
+          user_context: String(context || 'No context provided'),
+          conversation_context: String(conversationSummary || 'No context provided')
         }
       });
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 
 import {
   Card,
@@ -34,7 +34,7 @@ interface ChartRadarGridCircleFillProps {
 const chartConfig = {
   score: {
     label: "Score",
-    color: "hsl(var(--chart-1))",
+    color: "#ec4899", // brand pink color
   },
 } satisfies ChartConfig
 
@@ -58,8 +58,8 @@ export function ChartRadarGridCircleFill({
   return (
     <Card className="w-full">
       <CardHeader className="items-center pb-6">
-        <CardTitle className="text-2xl">{title}</CardTitle>
-        <CardDescription className="text-center">
+        <CardTitle className="text-2xl text-brand-wine">{title}</CardTitle>
+        <CardDescription className="text-center text-brand-wine">
           {description}
         </CardDescription>
       </CardHeader>
@@ -76,27 +76,34 @@ export function ChartRadarGridCircleFill({
           >
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <PolarGrid
-              className="fill-[--color-score] opacity-20"
+              stroke="#ec4899"
+              strokeOpacity={0.3}
               gridType="circle"
             />
             <PolarAngleAxis 
               dataKey="category" 
-              tick={{ fontSize: 12, fill: 'var(--foreground)' }}
+              tick={{ fontSize: 12, fill: '#722F37' }}
               className="text-sm font-medium"
+            />
+            <PolarRadiusAxis 
+              domain={[0, 5]}
+              tick={false}
+              tickCount={6}
+              axisLine={false}
             />
             <Radar
               dataKey="score"
-              fill="var(--color-score)"
-              fillOpacity={0.3}
-              stroke="var(--color-score)"
+              fill="#ec4899"
+              fillOpacity={0.2}
+              stroke="#ec4899"
               strokeWidth={3}
-              dot={{ fill: 'var(--color-score)', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#ec4899', strokeWidth: 2, r: 4 }}
             />
           </RadarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm pt-4">
-        <div className="text-muted-foreground flex items-center gap-2 leading-none">
+        <div className="text-brand-wine flex items-center gap-2 leading-none">
           Wellness metrics overview
         </div>
       </CardFooter>

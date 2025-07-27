@@ -1,8 +1,21 @@
 import { useConversation } from "@/context/ConversationProvider";
 
+// Skeleton component for loading message
+function MessageSkeleton() {
+  return (
+    <div className="my-4 flex justify-left text-brand-wine">
+      <div className="space-y-2 w-full max-w-md">
+        <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+        <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+        <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2"></div>
+      </div>
+    </div>
+  );
+}
+
 export function Chat() {
 
-  const {messages} = useConversation();
+  const {messages, chatStatus, isLoading} = useConversation();
 
   // Test messages with lorem ipsum placeholder text
   //  const messages = [
@@ -52,18 +65,22 @@ export function Chat() {
       <div className={`flex flex-col w-full max-h-full max-w-2xl mx-auto h-90 overflow-y-auto py-4 px-2 ${messages.length > 0 ? 'pb-48' : ''}`}>
         {messages.map(message => (
           <div key={message.id} className="whitespace-pre-wrap">
-            {message.parts.map((part, i) => {
-              switch (part.type) {
-                case 'text':
-                  if (message.role === 'user') {
-                      return (<div key={`${message.id}-${i}`} className=" my-4 flex justify-end">{<p className=" bg-brand-softPink bg-opacity-50 text-brand-wine p-2 rounded-2xl">{part.text}</p>}</div>)
-                  } else {
-                      return (<div key={`${message.id}-${i}`} className="my-4 flex justify-left text-brand-wine">{part.text}</div>)               
-                  }  
-              }
-            })}
+            {message.role === 'user' ? (
+              <div className="my-4 flex justify-end">
+                <p className="bg-brand-softPink bg-opacity-50 text-brand-wine p-2 rounded-2xl">
+                  {message.content}
+                </p>
+              </div>
+            ) : (
+              <div className="my-4 flex justify-left text-brand-wine">
+                {message.content}
+              </div>
+            )}
           </div>
         ))}
+        
+        {/* Show skeleton when message is being submitted or streaming */}
+        {(chatStatus === 'submitted' || chatStatus === 'streaming' || isLoading) && <MessageSkeleton />}
       </div>
     </div>
   );

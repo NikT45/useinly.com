@@ -238,10 +238,12 @@ export function useConversationManager() {
     }
   }
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, isLoading, status: chatStatus } = useChat();
 
   return {
     status: conversation?.status,
+    chatStatus, // Add chat status from useChat hook
+    isLoading, // Add isLoading state
     isSpeaking: conversation?.isSpeaking,
     micMuted: conversation?.micMuted ?? false,
     startConversation,

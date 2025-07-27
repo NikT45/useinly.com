@@ -4,12 +4,12 @@ import { useConversation } from "@/context/ConversationProvider";
 import { Send, ArrowLeft } from "lucide-react";
 
 export default function TalkCircle() {
-    const { mode, handleSubmit, input, handleInputChange, messages_remaining, setMode, audioLevel } = useConversation();
+    const { mode, customHandleSubmit, input, handleInputChange, messages_remaining, setMode, audioLevel } = useConversation();
 
-    function customHandleSubmit(e?: React.FormEvent) {
+    function handleSubmit(e?: React.FormEvent) {
         if (e) e.preventDefault();
         console.log("handling...");
-        handleSubmit();
+        customHandleSubmit();
         // rest of your logic
     }
 
@@ -77,7 +77,7 @@ export default function TalkCircle() {
             >
                 {mode === 'text' && (
                     //<form onSubmit={handleSubmit}>
-                    <form onSubmit={customHandleSubmit} className="w-full h-full">
+                    <form onSubmit={handleSubmit} className="w-full h-full">
                         <textarea
                             className="text-brand-wine w-full h-full p-4 pr-14 bg-transparent resize-none outline-none rounded-2xl"
                             placeholder="Speak your mind..."
@@ -87,7 +87,7 @@ export default function TalkCircle() {
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' && !e.shiftKey) {
                                     e.preventDefault();
-                                    customHandleSubmit();
+                                    handleSubmit();
                                 }
                             }}
                         />

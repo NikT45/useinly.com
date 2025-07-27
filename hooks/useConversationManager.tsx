@@ -17,6 +17,7 @@ export function useConversationManager() {
   const [lastName, setLastName] = useState('');
   const [context, setContext] = useState('');
   const [conversationSummary, setConversationSummary] = useState('');
+  const [conversationId, setConversationId] = useState<string | null>(null);
   
   // Audio analysis state
   const [audioLevel, setAudioLevel] = useState(0);
@@ -240,6 +241,53 @@ export function useConversationManager() {
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, status: chatStatus } = useChat();
 
+  async function createConversation() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('No authenticated user found');
+    }
+    const newConversationId = crypto.randomUUID();
+    const { data, error } = await supabase.from('conversations').insert({
+      id: newConversationId,
+      user_id: user?.id,
+      summary: '',
+      type: 'text'
+    });
+    if (error) {
+      throw new Error(error.message);
+    }
+    setConversationId(newConversationId);
+    return newConversationId;
+  }
+  async function saveMessages(message: string, role: string, targetConversationId?: string){
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('No authenticated user found');
+    }
+    const { data, error } = await supabase.from('messages').insert({
+      conversation_id: targetConversationId || conversationId,
+      user_id: user?.id,
+      message: message,
+      role: role,
+    });
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async function customHandleSubmit(e?: React.FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
+    
+    if (!input.trim()) return; // Don't submit empty messages
+    
+    let targetConversationId = conversationId || undefined;
+    if (!conversationId) {
+      targetConversationId = await createConversation();
+    }
+    await saveMessages(input, 'user', targetConversationId);
+    handleSubmit(e);
+  }
+
   return {
     status: conversation?.status,
     chatStatus, // Add chat status from useChat hook
@@ -265,5 +313,7 @@ export function useConversationManager() {
     lastName,
     context,
     audioLevel,
+    conversationId,
+    customHandleSubmit,
   };
 }

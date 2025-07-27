@@ -239,7 +239,40 @@ export function useConversationManager() {
     }
   }
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, status: chatStatus } = useChat();
+  // Store the current conversation ID for the active chat session
+  const currentConversationIdRef = useRef<string | null>(null);
+
+  // Keep ref synchronized with conversationId state
+  useEffect(() => {
+    currentConversationIdRef.current = conversationId;
+  }, [conversationId]);
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading, status: chatStatus } = useChat({
+    onFinish: async (message, { usage, finishReason }) => {
+      console.log('Finished streaming message:', message);
+      console.log('Token usage:', usage);
+      console.log('Finish reason:', finishReason);
+      
+      // Save the assistant's message to the database
+      try {
+        // Use the current conversation ID from ref, which should be set by customHandleSubmit
+        const targetConversationId = currentConversationIdRef.current || conversationId;
+        if (!targetConversationId) {
+          console.error('No conversation ID available for saving assistant message');
+          return;
+        }
+        await saveMessages(message.content, 'assistant', targetConversationId);
+      } catch (error) {
+        console.error('Failed to save assistant message:', error);
+      }
+    },
+    onError: (error) => {
+      console.error('An error occurred during chat:', error);
+    },
+    onResponse: (response) => {
+      console.log('Received HTTP response from server:', response);
+    },
+  });
 
   async function createConversation() {
     const { data: { user } } = await supabase.auth.getUser();
@@ -284,6 +317,10 @@ export function useConversationManager() {
     if (!conversationId) {
       targetConversationId = await createConversation();
     }
+    
+    // Store the conversation ID in ref for the assistant message to use
+    currentConversationIdRef.current = targetConversationId || null;
+    
     await saveMessages(input, 'user', targetConversationId);
     handleSubmit(e);
   }

@@ -8,6 +8,12 @@ export default function TalkCircle() {
 
     function handleSubmit(e?: React.FormEvent) {
         if (e) e.preventDefault();
+        
+        // Prevent submission if no messages remaining
+        if (messages_remaining < 1) {
+            return;
+        }
+        
         console.log("handling...");
         customHandleSubmit();
         // rest of your logic
@@ -80,20 +86,27 @@ export default function TalkCircle() {
                     <form onSubmit={handleSubmit} className="w-full h-full">
                         <textarea
                             className="text-brand-wine w-full h-full p-4 pr-14 bg-transparent resize-none outline-none rounded-2xl"
-                            placeholder="Speak your mind..."
-                            disabled={mode !== 'text'}
+                            placeholder={messages_remaining < 1 ? "No messages remaining" : "Speak your mind..."}
+                            disabled={mode !== 'text' || messages_remaining < 1}
                             value={input}
                             onChange={handleInputChange}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' && !e.shiftKey) {
                                     e.preventDefault();
-                                    handleSubmit();
+                                    if (messages_remaining >= 1) {
+                                        handleSubmit();
+                                    }
                                 }
                             }}
                         />
                         <button
                             type="submit"
-                            className="absolute bottom-3 right-3 w-10 h-10 bg-brand-coral rounded-full flex items-center justify-center hover:bg-opacity-80 transition-all duration-200"
+                            disabled={messages_remaining < 1}
+                            className={`absolute bottom-3 right-3 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                                messages_remaining < 1 
+                                    ? 'bg-gray-400 cursor-not-allowed' 
+                                    : 'bg-brand-coral hover:bg-opacity-80'
+                            }`}
                         >
                             <Send className="w-5 h-5 text-white" />
                         </button>

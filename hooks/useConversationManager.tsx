@@ -306,6 +306,7 @@ export function useConversationManager() {
     if (error) {
       throw new Error(error.message);
     }
+    
   }
 
   async function customHandleSubmit(e?: React.FormEvent<HTMLFormElement>) {
@@ -320,9 +321,10 @@ export function useConversationManager() {
     
     // Store the conversation ID in ref for the assistant message to use
     currentConversationIdRef.current = targetConversationId || null;
-    
+
     await saveMessages(input, 'user', targetConversationId);
     handleSubmit(e);
+    setMessagesRemaining(messages_remaining - 1);
   }
 
   return {

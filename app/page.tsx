@@ -1,51 +1,131 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
-import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
+"use client";
+
+import { Navbar } from "@/components/navbar";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  return (
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex-1 w-full flex flex-col gap-20 items-center">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center font-semibold">
-              <Link href={"/"}>Next.js Supabase Starter</Link>
-              <div className="flex items-center gap-2">
-                <DeployButton />
-              </div>
-            </div>
-            {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
-          </div>
-        </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <Hero />
-          <main className="flex-1 flex flex-col gap-6 px-4">
-            <h2 className="font-medium text-xl mb-4">Next steps</h2>
-            {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-          </main>
-        </div>
+  const [scrollY, setScrollY] = useState(0);
 
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              Supabase
-            </a>
-          </p>
-          <ThemeSwitcher />
-        </footer>
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Calculate rotation based on scroll position
+  // Start at 15 degrees (tilted forward) and go to 0 degrees (flat)
+  const maxScroll = 500; // Adjust this value to control how much scroll is needed
+  const rotation = Math.max(15 - (scrollY / maxScroll) * 15, 0);
+  const scale = Math.min(1 + (scrollY / maxScroll) * 0.1, 1.1);
+
+  return (
+    <motion.div
+      className="min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Navbar />
+
+      {/* Animated curved vector line - positioned to hit top of screen */}
+      <div className="absolute top-0 left-0 w-full h-screen overflow-hidden pointer-events-none">
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 1440 1086"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="curveGradient" x1="808.5" y1="222.5" x2="801.5" y2="1258.5" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#FFA5AB" />
+              <stop offset="0.798077" stopColor="#A53860" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M1613.5 -69C1421.5 856 665.8 892.6 -273 911"
+            stroke="url(#curveGradient)"
+            strokeWidth="370"
+            fill="none"
+            style={{
+              animation: "float 6s ease-in-out infinite",
+            }}
+          />
+        </svg>
       </div>
-    </main>
+
+      {/* Main Content with padding to account for fixed navbar */}
+      <main className="pt-40 px-4 relative z-10">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-wine">
+            Support, <span className="gradient-text">Whenever</span> You Need It
+          </h1>
+          <h2 className="text-lg md:text-xl lg:text-[24px] font-semibold text-brand-coral max-w-2xl mx-auto mt-12">
+            Break old patterns, build healthier habits,<br />
+            and feel supported every step of the way.
+          </h2>
+          <div className="flex justify-center mt-12">
+            <Link href="/signup" className="bg-brand-berry text-white px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors">
+              Start Chatting For Free
+            </Link>
+          </div>
+          
+          {/* Parallax Image */}
+          <div className="mt-16 flex justify-center perspective-1000">
+            <div
+              className="transition-transform duration-100 ease-out"
+              style={{
+                transform: `rotateX(${rotation}deg) scale(${scale})`,
+                transformStyle: 'preserve-3d',
+              }}
+            >
+              <img
+                src="/images/localhost_3000_home (2).png"
+                alt="AI Therapy App Interface"
+                width={512}
+                height={512}
+                className="mx-auto rounded-2xl object-cover shadow-2xl max-w-full h-auto"
+                draggable={false}
+              />
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Add some extra content to enable scrolling for the parallax effect */}
+      <div className="h-screen"></div>
+
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          25% {
+            transform: translateY(-3px) translateX(2px);
+          }
+          50% {
+            transform: translateY(-5px) translateX(0px);
+          }
+          75% {
+            transform: translateY(-3px) translateX(-2px);
+          }
+        }
+        
+        .gradient-text {
+          background: linear-gradient(90deg, #A53860, #D2B48C);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-fill-color: transparent;
+        }
+
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+      `}</style>
+    </motion.div>
   );
 }

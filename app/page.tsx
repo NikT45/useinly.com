@@ -4,6 +4,8 @@ import { Navbar } from "@/components/navbar";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import ShinyText from "@/components/ShinyText";
+import { User } from "lucide-react";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -20,7 +22,7 @@ export default function Home() {
   // Calculate rotation based on scroll position
   // Start at 15 degrees (tilted forward) and go to 0 degrees (flat)
   const maxScroll = 500; // Adjust this value to control how much scroll is needed
-  const rotation = Math.max(15 - (scrollY / maxScroll) * 15, 0);
+  const rotation = Math.max(20 - (scrollY / maxScroll) * 20, 0);
   const scale = Math.min(1 + (scrollY / maxScroll) * 0.1, 1.1);
 
   return (
@@ -68,11 +70,11 @@ export default function Home() {
             and feel supported every step of the way.
           </h2>
           <div className="flex justify-center mt-12">
-            <Link href="/signup" className="bg-brand-berry text-white px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors">
-              Start Chatting For Free
+            <Link href="/signup" className="bg-brand-berry px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors">
+              <ShinyText text="Start Chatting For Free" disabled={false} speed={3} className='' />
             </Link>
           </div>
-          
+
           {/* Parallax Image */}
           <div className="mt-16 flex justify-center perspective-1000">
             <div
@@ -93,10 +95,75 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Personalized Support Section */}
+        <div className="mt-32 text-center gap-32">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
+            Personalized Support, Any Time
+          </h2>
+
+          {/* Layered Circles with User Icon */}
+          <div className="mt-12 flex justify-center">
+            <div className="relative">
+              {/* Outermost circle - Gradient from Soft Pink to Coral */}
+                {/* Middle circle - Gradient from Coral to Berry */}
+                  {/* Innermost circle - Gradient from Berry to Wine */}
+                  <div className="w-96 h-96 md:w-36 lg:w-48 md:h-36 lg:h-48 rounded-full bg-gradient-to-br from-brand-berry to-brand-wine flex items-center justify-center">
+                    {/* User Icon */}
+                    <User className="w-12 h-12 md:w-16 lg:w-24 md:h-16 lg:h-24 text-white" />
+                  </div>
+                </div>
+          </div>
+
+          {/* Description text */}
+          <div className="mt-12 flex flex-col">
+            <p className="text-lg md:text-xl text-brand-coral max-w-3xl mx-auto mt-8 px-4 font-medium">
+              Our AI learns about your habits, patterns, and goals, adapting its guidance so every conversation feels personal and meaningful
+            </p>
+          </div>
+        </div>
+          
+          {/* Gradient Divider */}
+          <div className="mt-16 h-32 -mx-4 bg-gradient-to-b from-brand-softPink to-transparent opacity-30"></div>
+          
+          {/* Daily Reflections Section */}
+          <div className="mt-32 text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
+              Daily Reflections, <span className="gradient-text">Simplified</span>
+            </h2>
+            
+            {/* Reflection Image */}
+            <div className="mt-16 flex justify-center perspective-1000">
+              <div
+                className="transition-transform duration-100 ease-out"
+                style={{
+                  transform: `rotateX(${rotation}deg) scale(${scale})`,
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                <img
+                  src="/images/localhost_3000_home (1).png"
+                  alt="Daily Reflections Interface"
+                  width={512}
+                  height={512}
+                  className="mx-auto rounded-lg object-cover shadow-2xl w-4/5 md:w-full max-w-md md:max-w-lg lg:max-w-xl h-auto"
+                  draggable={false}
+                />
+              </div>
+            </div>
+            
+            {/* Description text */}
+            <div className="mt-12 flex flex-col">
+              <p className="text-lg md:text-xl text-brand-coral max-w-3xl mx-auto mt-8 px-4 font-medium">
+                Reflect on your day with quick journals and guided prompts that help you explore your thoughts without overthinking.
+              </p>
+            </div>
+          </div>
+        
       </main>
 
       {/* Add some extra content to enable scrolling for the parallax effect */}
-      <div className="h-screen"></div>
+      {/* <div className="h-screen"></div> */}
 
       <style jsx global>{`
         @keyframes float {

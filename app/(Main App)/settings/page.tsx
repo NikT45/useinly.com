@@ -215,16 +215,17 @@ export default function Settings() {
       if (!user) throw new Error("No user found");
 
       // Delete user profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('user_id', user.id);
-
-      if (profileError) throw profileError;
+     const {data,error} = await supabase.functions.invoke('delete-user', {
+      body: {
+        user_id: user.id
+      }
+     });
+     if (error) throw error;
 
       // Sign out and delete auth user (this will handle the auth deletion)
       const { error: signOutError } = await supabase.auth.signOut();
       if (signOutError) throw signOutError;
+
 
       router.push("/");
     } catch (error) {

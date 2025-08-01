@@ -10,7 +10,7 @@ import { useConversation } from "@/context/ConversationProvider";
 import { Chat } from "@/components/chat";
 
 export default function Home() {
-    const {mode,messages} = useConversation();
+    const {mode, messages, timeRemaining, timerActive, showTimerWarning} = useConversation();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
@@ -28,6 +28,13 @@ export default function Home() {
 
     checkAuth();
   }, [router, supabase.auth]);
+
+  // Timer formatting function
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   if (isLoading) {
     return (
@@ -50,6 +57,15 @@ export default function Home() {
             <Chat/>
         </div>
           )}
+        {/* Timer display - only show in voice mode when timer is active */}
+        {mode === 'voice' && timerActive && (
+          <div className="flex flex-col items-center mb-6">
+            <div className="text-md text-brand-wine text-opacity-30">
+              {formatTime(timeRemaining)}
+            </div>
+          </div>
+        )}
+
         <div className={`flex justify-center ${mode === "text" && messages.length > 0 ? "fixed bottom-0 left-0 right-0 pb-8 z-10" : ""}`}>
           <TalkCircle/>
           <div className="absolute z-[-1] bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-white via-white/95 via-white/80 to-transparent pointer-events-none"></div>

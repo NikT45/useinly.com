@@ -17,7 +17,14 @@ export function useConversationManager() {
   const [lastName, setLastName] = useState('');
   const [context, setContext] = useState('');
   const [conversationSummary, setConversationSummary] = useState('');
+  const [tier, setTier] = useState('');
   const [conversationId, setConversationId] = useState<string | null>(null);
+  
+  // Timer state
+  const [timeRemaining, setTimeRemaining] = useState(0); // in seconds
+  const [timerActive, setTimerActive] = useState(false);
+  const [showTimerWarning, setShowTimerWarning] = useState(false);
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
   
   // Audio analysis state
   const [audioLevel, setAudioLevel] = useState(0);
@@ -57,11 +64,12 @@ export function useConversationManager() {
 
     const fetchRemaining = async () => {
       try {
-        const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota');
+        const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota,plan_tier');
         if (error) throw new Error(error.message);
         if (data && data.length > 0) {
           setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
           setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
+          setTier(data[0].plan_tier || '');
         }
       } catch (error) {
         console.error('Failed to fetch remaining usage:', error);
@@ -149,6 +157,60 @@ export function useConversationManager() {
     };
   }, [mode, setupAudioAnalysis, cleanupAudioAnalysis]);
 
+  // Timer utility functions
+  const clearTimer = useCallback(() => {
+    if (timerIdRef.current) {
+      clearInterval(timerIdRef.current);
+      timerIdRef.current = null;
+    }
+    setTimerActive(false);
+    setShowTimerWarning(false);
+  }, []);
+
+  const startTimer = useCallback((durationInMinutes: number) => {
+    clearTimer(); // Clear any existing timer
+    
+    const durationInSeconds = durationInMinutes * 60;
+    setTimeRemaining(durationInSeconds);
+    setTimerActive(true);
+    setShowTimerWarning(false);
+
+    timerIdRef.current = setInterval(() => {
+      setTimeRemaining((prev) => {
+        const newTime = prev - 1;
+        
+        // Show warning when 2 minutes or less remaining
+        if (newTime <= 120 && newTime > 0) {
+          setShowTimerWarning(true);
+        }
+        
+        // Auto-stop when timer reaches 0
+        if (newTime <= 0) {
+          stopConversation();
+          return 0;
+        }
+        
+        return newTime;
+      });
+    }, 1000);
+  }, [clearTimer]);
+
+
+
+  // Cleanup timer on component unmount
+  useEffect(() => {
+    return () => {
+      clearTimer();
+    };
+  }, [clearTimer]);
+
+  // Clear timer when mode changes away from voice
+  useEffect(() => {
+    if (mode !== 'voice') {
+      clearTimer();
+    }
+  }, [mode, clearTimer]);
+
   const getSignedUrl = async (): Promise<string> => {
     const { data, error } = await supabase.functions.invoke('get-signed-url');
     if (error) throw new Error(error.message);
@@ -163,6 +225,14 @@ export function useConversationManager() {
     // Check authentication before proceeding
     if (!isAuthenticated) {
       console.error('User not authenticated');
+      setMode('idle');
+      return;
+    }
+
+    // Check if user has minutes remaining
+    if (minutes_remaining <= 0) {
+      console.error('No minutes remaining');
+      alert('You have no voice conversation minutes remaining. Please upgrade your plan or wait for your next billing cycle.');
       setMode('idle');
       return;
     }
@@ -192,6 +262,18 @@ export function useConversationManager() {
 
       console.log('Setting mode to voice...');
       setMode('voice');
+
+      // Calculate timer duration based on tier and minutes_remaining
+      let timerDuration: number;
+      if (tier === 'free') {
+        timerDuration = Math.min(10, minutes_remaining);
+      } else {
+        timerDuration = Math.min(20, minutes_remaining);
+      }
+
+      console.log(`Starting timer for ${timerDuration} minutes (tier: ${tier}, remaining: ${minutes_remaining})`);
+      startTimer(timerDuration);
+
     } catch (err) {
       console.error('Start conversation failed:', err);
       setMode('idle');
@@ -201,11 +283,18 @@ export function useConversationManager() {
   async function stopConversation() {
     console.log('stopConversation called, current mode:', mode);
     try {
+      // Clear timer first
+      clearTimer();
+      
+      // End the conversation session
       await conversation.endSession();
       setMode('idle');
       console.log('Conversation ended successfully.');
     } catch (err) {
       console.error('Failed to stop conversation:', err);
+      // Still clean up timer even if other operations fail
+      clearTimer();
+      setMode('idle');
     }
   }
 
@@ -354,5 +443,9 @@ export function useConversationManager() {
     audioLevel,
     conversationId,
     customHandleSubmit,
+    // Timer values
+    timeRemaining,
+    timerActive,
+    showTimerWarning,
   };
 }

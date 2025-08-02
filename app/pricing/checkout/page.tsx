@@ -29,19 +29,16 @@ function CheckoutContent() {
 
     const options = {
         clientSecret: clientSecret,
-      
     };
 
     return (
-        <div className="min-h-screen py-8">
-            <div className="max-w-4xl mx-auto px-4">
-                <EmbeddedCheckoutProvider
-                    stripe={stripePromise}
-                    options={options}
-                >
-                    <EmbeddedCheckout className='bg-transparent'/>
-                </EmbeddedCheckoutProvider>
-            </div>
+        <div className="bg-brand-berry w-full min-h-screen flex items-center justify-center">
+            <EmbeddedCheckoutProvider
+                stripe={stripePromise}
+                options={options}
+            >
+                <EmbeddedCheckout className='w-full h-full bg-transparent'/>
+            </EmbeddedCheckoutProvider>
         </div>
     );
 }

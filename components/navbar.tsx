@@ -9,7 +9,7 @@ export function Navbar() {
 
     return (
         <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
-            <div className="navbar-backdrop bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20">
+            <div className="backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20">
                 <div className="px-6 py-4 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2">
@@ -105,14 +105,6 @@ export function Navbar() {
                     </div>
                 )}
             </div>
-            
-            {/* Custom CSS for backdrop filter with webkit prefix */}
-            <style jsx global>{`
-                .navbar-backdrop {
-                    backdrop-filter: blur(12px);
-                    -webkit-backdrop-filter: blur(12px);
-                }
-            `}</style>
         </nav>
     );
 }

@@ -65,4 +65,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Ensure backdrop blur works on Safari */
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }

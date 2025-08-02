@@ -1,6 +1,6 @@
 'use client'
 
-import { MessageCircle, NotebookPen, Lightbulb, Settings } from 'lucide-react'
+import { MessageCircle, NotebookPen, Lightbulb, Settings, FileText } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
 export default function HeaderNav() {
@@ -8,7 +8,13 @@ export default function HeaderNav() {
     const isHome = pathname === '/home'
     const isReflections = pathname === '/reflections'
     const isInsights = pathname === '/insights'
+    const isPrivacy = pathname === '/privacy'
+    const isTerms = pathname === '/terms'
     const router = useRouter()
+    
+    // Check if we're on either privacy or terms page
+    const isLegal = isPrivacy || isTerms;
+    
     return (
         <div className="relative w-full flex items-center justify-center">
             <nav className="min-w-[20%] p-[6px] rounded-full flex items-center justify-between">
@@ -22,6 +28,14 @@ export default function HeaderNav() {
                     <Lightbulb size={24} className={`${isInsights ? 'text-white' : 'text-brand-berry group-hover:text-white'}`} strokeWidth={2} />
                 </button>
             </nav>
+            
+            {/* Legal button positioned on the far right */}
+            <button 
+                onClick={() => router.push('/privacy')} 
+                className={`absolute right-12 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isLegal ? 'text-brand-berry' : 'text-gray-500 hover:text-brand-berry hover:bg-gray-100'}`}
+            >
+                <FileText size={18} strokeWidth={2} />
+            </button>
             
             {/* Settings button positioned on the far right */}
             <button 

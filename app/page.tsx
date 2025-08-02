@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ShinyText from "@/components/ShinyText";
-import { User } from "lucide-react";
+import { Footer } from "@/components/footer";
+import { AnimatedText } from "@/components/AnimatedText";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -62,18 +63,31 @@ export default function Home() {
       {/* Main Content with padding to account for fixed navbar */}
       <main className="pt-40 px-4 relative z-10">
         <div className="text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-wine">
-            Support, <span className="gradient-text">Whenever</span> You Need It
-          </h1>
-          <h2 className="text-lg md:text-xl lg:text-[24px] font-semibold text-brand-coral max-w-2xl mx-auto mt-12">
+          <AnimatedText 
+            text="Support, Whenever You Need It" 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-wine"
+            delay={0.2}
+            staggerChildren={0.1}
+          />
+          <motion.h2 
+            className="text-lg md:text-xl lg:text-[24px] font-semibold text-brand-berry max-w-2xl mx-auto mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             Break old patterns, build healthier habits,<br />
             and feel supported every step of the way.
-          </h2>
-          <div className="flex justify-center mt-12">
+          </motion.h2>
+          <motion.div 
+            className="flex justify-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
             <Link href="/signup" className="bg-brand-berry px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors">
               <ShinyText text="Start Chatting For Free" disabled={false} speed={3} className='' />
             </Link>
-          </div>
+          </motion.div>
 
           {/* Parallax Image */}
           <div className="mt-16 flex justify-center perspective-1000">
@@ -85,7 +99,7 @@ export default function Home() {
               }}
             >
               <img
-                src="/images/localhost_3000_home (2).png"
+                src="/images/homePage.png"
                 alt="AI Therapy App Interface"
                 width={512}
                 height={512}
@@ -96,72 +110,90 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Personalized Support Section */}
+        {/* Personalized Support Section
         <div className="mt-32 text-center gap-32">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
             Personalized Support, Any Time
           </h2>
 
-          {/* Layered Circles with User Icon */}
+          {/* Layered Circles with User Icon 
           <div className="mt-12 flex justify-center">
             <div className="relative">
-              {/* Outermost circle - Gradient from Soft Pink to Coral */}
-                {/* Middle circle - Gradient from Coral to Berry */}
-                  {/* Innermost circle - Gradient from Berry to Wine */}
+              {/* Outermost circle - Gradient from Soft Pink to Coral 
+                {/* Middle circle - Gradient from Coral to Berry 
+                  {/* Innermost circle - Gradient from Berry to Wine 
                   <div className="w-96 h-96 md:w-36 lg:w-48 md:h-36 lg:h-48 rounded-full bg-gradient-to-br from-brand-berry to-brand-wine flex items-center justify-center">
-                    {/* User Icon */}
+                    {/* User Icon 
                     <User className="w-12 h-12 md:w-16 lg:w-24 md:h-16 lg:h-24 text-white" />
                   </div>
                 </div>
+          </div> */}
+
+        {/* Description text 
+          <div className="mt-12 flex flex-col">
+            <p className="text-lg md:text-xl text-brand-berry max-w-3xl mx-auto mt-8 px-4 font-medium">
+              Our AI learns about your habits, patterns, and goals, adapting its guidance so every conversation feels personal and meaningful
+            </p>
+          </div>
+        </div> */}
+
+        {/* Gradient Divider */}
+        {/* <div className="mt-16 h-32 -mx-4 bg-gradient-to-b from-brand-softPink to-transparent opacity-30"></div> */}
+
+        {/* Daily Reflections Section */}
+        <div className="mt-48 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
+            Daily Reflections, <span className="gradient-text">Simplified</span>
+          </h2>
+
+          {/* Reflection Image */}
+          <div className="mt-16 mb-12">
+            <img
+              src="/images/reflection.png"
+              alt="Daily Reflections Interface"
+              width={512}
+              height={512}
+              className="mx-auto rounded-lg object-cover shadow-2xl w-4/5 md:w-full max-w-md md:max-w-lg lg:max-w-xl h-auto"
+              draggable={false}
+            />
           </div>
 
           {/* Description text */}
           <div className="mt-12 flex flex-col">
-            <p className="text-lg md:text-xl text-brand-coral max-w-3xl mx-auto mt-8 px-4 font-medium">
-              Our AI learns about your habits, patterns, and goals, adapting its guidance so every conversation feels personal and meaningful
+            <p className="text-lg md:text-xl text-brand-berry max-w-3xl mx-auto mt-8 px-4 font-medium">
+              Reflect on your day with quick journals and guided prompts that help you explore your thoughts without overthinking.
             </p>
           </div>
         </div>
-          
-          {/* Gradient Divider */}
-          <div className="mt-16 h-32 -mx-4 bg-gradient-to-b from-brand-softPink to-transparent opacity-30"></div>
-          
-          {/* Daily Reflections Section */}
-          <div className="mt-32 text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
-              Daily Reflections, <span className="gradient-text">Simplified</span>
-            </h2>
-            
-            {/* Reflection Image */}
-            <div className="mt-16 flex justify-center perspective-1000">
-              <div
-                className="transition-transform duration-100 ease-out"
-                style={{
-                  transform: `rotateX(${rotation}deg) scale(${scale})`,
-                  transformStyle: 'preserve-3d',
-                }}
-              >
-                <img
-                  src="/images/localhost_3000_home (1).png"
-                  alt="Daily Reflections Interface"
-                  width={512}
-                  height={512}
-                  className="mx-auto rounded-lg object-cover shadow-2xl w-4/5 md:w-full max-w-md md:max-w-lg lg:max-w-xl h-auto"
-                  draggable={false}
-                />
-              </div>
-            </div>
-            
-            {/* Description text */}
-            <div className="mt-12 flex flex-col">
-              <p className="text-lg md:text-xl text-brand-coral max-w-3xl mx-auto mt-8 px-4 font-medium">
-                Reflect on your day with quick journals and guided prompts that help you explore your thoughts without overthinking.
-              </p>
-            </div>
-          </div>
-        
-      </main>
 
+        {/* Weekly Insights Section */}
+        <div className="mt-32 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-wine">
+            Weekly <span className="gradient-text">Personalized</span> Insights
+          </h2>
+
+          {/* Insights Image */}
+          <div className="mt-16 mb-12">
+            <img
+              src="/images/insights.png"
+              alt="Weekly Insights Interface"
+              width={512}
+              height={512}
+              className="mx-auto rounded-lg object-cover shadow-2xl w-4/5 md:w-full max-w-md md:max-w-lg lg:max-w-xl h-auto"
+              draggable={false}
+            />
+          </div>
+
+          {/* Description text */}
+          <div className="mt-12 flex flex-col">
+            <p className="text-lg md:text-xl text-brand-berry max-w-3xl mx-auto mt-8 px-4 font-medium">
+              Discover patterns in your thoughts and behaviors with AI-powered weekly summaries that reveal meaningful trends and celebrate your growth.
+            </p>
+          </div>
+</div>
+ 
+       </main>
+       <Footer />
       {/* Add some extra content to enable scrolling for the parallax effect */}
       {/* <div className="h-screen"></div> */}
 

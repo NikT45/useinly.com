@@ -13,6 +13,7 @@ export function useConversationManager() {
   // const [minutes_quota, setMinutesQuota] = useState(0);
   const [minutes_remaining, setMinutesRemaining] = useState(0);
   const [messages_remaining, setMessagesRemaining] = useState(0);
+  const [messages_used, setMessagesUsed] = useState(0);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [context, setContext] = useState('');
@@ -67,6 +68,7 @@ export function useConversationManager() {
         const { data, error } = await supabase.from('profiles').select('minutes_used,minutes_quota,messages_used,messages_quota,plan_tier');
         if (error) throw new Error(error.message);
         if (data && data.length > 0) {
+          setMessagesUsed(data[0].messages_used);
           setMinutesRemaining(data[0].minutes_quota - data[0].minutes_used);
           setMessagesRemaining(data[0].messages_quota - data[0].messages_used);
           setTier(data[0].plan_tier || '');
@@ -412,8 +414,27 @@ export function useConversationManager() {
     currentConversationIdRef.current = targetConversationId || null;
 
     await saveMessages(input, 'user', targetConversationId);
-    handleSubmit(e);
-    setMessagesRemaining(messages_remaining - 1);
+    console.log('message context', context);
+    console.log('message conversationSummary', conversationSummary);
+    console.log('message firstName', firstName);
+    handleSubmit(e, {
+      body: {
+        userName: firstName || 'User',
+        strugglesWith: JSON.stringify(context) || 'Null',
+        conversationContext: JSON.stringify(conversationSummary) || 'Null'
+      }
+    });
+          const newMessagesUsed = messages_used + 1;
+      setMessagesUsed(newMessagesUsed);
+      setMessagesRemaining(messages_remaining - 1);
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data, error } = await supabase.from('profiles').update({
+        messages_used: newMessagesUsed 
+      }).eq('user_id', user?.id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    
   }
 
   return {

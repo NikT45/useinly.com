@@ -36,10 +36,10 @@ export default function PrivacyPolicy() {
               <p className="mb-2">Your information is used solely to:</p>
               <ul className="list-disc pl-6 space-y-1">
                 <li>Provide personalized content and prompts</li>
-                <li>Improve the app&#39;s performance and AI capabilities</li>
+                <li>Improve the app's performance and AI capabilities</li>
                 <li>Maintain the security of your account</li>
               </ul>
-              <p className="mt-2">We do not sell your data. We may share data with trusted service providers (e.g. AI processing, analytics, cloud infrastructure), but only to deliver the app&#39;s features.</p>
+              <p className="mt-2">We do not sell your data. We may share data with trusted service providers (e.g., AI processing, analytics, cloud infrastructure), but only to deliver the app's features.</p>
             </div>
             
             <div>

@@ -7,9 +7,25 @@ import { useEffect, useState } from "react";
 import ShinyText from "@/components/ShinyText";
 import { Footer } from "@/components/footer";
 import { AnimatedText } from "@/components/AnimatedText";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        router.push("/home");
+      }
+    };
+
+    checkUser();
+  }, [router]);
 
   useEffect(() => {
     const handleScroll = () => {

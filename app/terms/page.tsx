@@ -28,18 +28,23 @@ export default function TermsOfService() {
             
             <div>
               <h3 className="text-lg font-medium mb-2">2. Limitation of Liability</h3>
-              <p className="mb-2">You use this app entirely at your own risk. To the fullest extent permitted by law, we disclaim all liability for:</p>
+              <p className="mb-2">You use this app entirely at your own risk. The app is experimental and provided for informational purposes only. The developers make no claims about being licensed professionals or offering medically-sound advice.</p>
+              
+              <p className="mb-2">To the fullest extent permitted by law, we disclaim all liability for:</p>
               <ul className="list-disc pl-6 space-y-1">
                 <li>Emotional distress</li>
                 <li>Habit relapse or failure to change behavior</li>
                 <li>Technical errors, outages, or data loss</li>
-                <li>Inaccurate or unexpected AI responses</li>
+                <li>Inaccurate, misleading, or unexpected AI responses</li>
+                <li>Any decisions you make based on content from this app</li>
               </ul>
+              
+              <p className="mt-2">We are not doctors, therapists, or behavioral scientists. We're just building a tool to help — please don't treat it as more than that.</p>
             </div>
             
             <div>
               <h3 className="text-lg font-medium mb-2">3. No Warranties</h3>
-              <p>The app is provided &#34;as is&#34; and &#34;as available&#34;. We make no guarantees about its availability, effectiveness, or accuracy.</p>
+              <p>The app is provided "as is" and "as available." We make no guarantees about its availability, effectiveness, or accuracy.</p>
             </div>
             
             <div>
@@ -55,6 +60,11 @@ export default function TermsOfService() {
             <div>
               <h3 className="text-lg font-medium mb-2">6. Changes to Terms</h3>
               <p>We may update these terms at any time. Continued use of the app after changes constitutes your acceptance of the new terms.</p>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium mb-2">7. Transparency and Common Sense</h3>
+              <p>This app is a work in progress, built with good intentions but no guarantees. While we strive to be helpful, we make no promises and take no responsibility for how you interpret or use the content. We're just figuring it out as we go — use your best judgment and consult real professionals when in doubt.</p>
             </div>
           </div>
         </div>

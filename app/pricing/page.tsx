@@ -67,7 +67,7 @@ export default function PricingPage() {
                         </p>
                         <div className="w-full flex flex-col gap-[8px]">
                             <div className="w-full h-[1px] bg-brand-softPink"></div>
-                            <p className="text-brand-coral text-[14px] font-medium">Support you'll receive</p>
+                            <p className="text-brand-coral text-[14px] font-medium">Support you&apos;ll receive</p>
                         </div>
                         <div className="w-full flex flex-col gap-[12px]">
                             <div className="w-full flex flex-row items-center gap-[4px]">
@@ -112,7 +112,7 @@ export default function PricingPage() {
                             </p>
                             <div className="w-full flex flex-col gap-[8px]">
                                 <div className="w-full h-[1px] bg-brand-softPink"></div>
-                                <p className="text-brand-coral text-[14px] font-medium">Support you'll receive</p>
+                                <p className="text-brand-coral text-[14px] font-medium">Support you&apos;ll receive</p>
                             </div>
                             <div className="w-full flex flex-col gap-[10px] lg:gap-[12px]">
                                 <div className="w-full flex flex-row items-center gap-[4px]">
@@ -159,7 +159,7 @@ export default function PricingPage() {
                         </p>
                         <div className="w-full flex flex-col gap-[8px]">
                             <div className="w-full h-[1px] bg-brand-softPink"></div>
-                            <p className="text-brand-coral text-[14px] font-medium">Support you'll receive</p>
+                            <p className="text-brand-coral text-[14px] font-medium">Support you&apos;ll receive</p>
                         </div>
                         <div className="w-full flex flex-col gap-[12px]">
                             <div className="w-full flex flex-row items-center gap-[4px]">

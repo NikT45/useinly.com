@@ -2,7 +2,7 @@ import { Speech, MessageSquareText } from 'lucide-react'
 import { useConversation } from '@/context/ConversationProvider';
 
 export function InteractModesButtons() {
-    const { mode, setMode, startConversation, minutes_remaining } = useConversation();
+    const { setMode, startConversation, minutes_remaining } = useConversation();
     const isDisabled = minutes_remaining === 0;
     
     return (

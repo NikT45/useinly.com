@@ -39,12 +39,12 @@ export default function TermsOfService() {
                 <li>Any decisions you make based on content from this app</li>
               </ul>
               
-              <p className="mt-2">We are not doctors, therapists, or behavioral scientists. We're just building a tool to help — please don't treat it as more than that.</p>
+              <p className="mt-2">We are not doctors, therapists, or behavioral scientists. We&apos;re just building a tool to help — please don&apos;t treat it as more than that.</p>
             </div>
             
             <div>
               <h3 className="text-lg font-medium mb-2">3. No Warranties</h3>
-              <p>The app is provided "as is" and "as available." We make no guarantees about its availability, effectiveness, or accuracy.</p>
+              <p>The app is provided &quot;as is&quot; and &quot;as available.&quot; We make no guarantees about its availability, effectiveness, or accuracy.</p>
             </div>
             
             <div>
@@ -64,7 +64,7 @@ export default function TermsOfService() {
             
             <div>
               <h3 className="text-lg font-medium mb-2">7. Transparency and Common Sense</h3>
-              <p>This app is a work in progress, built with good intentions but no guarantees. While we strive to be helpful, we make no promises and take no responsibility for how you interpret or use the content. We're just figuring it out as we go — use your best judgment and consult real professionals when in doubt.</p>
+              <p>This app is a work in progress, built with good intentions but no guarantees. While we strive to be helpful, we make no promises and take no responsibility for how you interpret or use the content. We&apos;re just figuring it out as we go — use your best judgment and consult real professionals when in doubt.</p>
             </div>
           </div>
         </div>

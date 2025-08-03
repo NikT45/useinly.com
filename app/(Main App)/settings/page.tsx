@@ -215,7 +215,7 @@ export default function Settings() {
       if (!user) throw new Error("No user found");
 
       // Delete user profile
-     const {data,error} = await supabase.functions.invoke('delete-user', {
+     const {error} = await supabase.functions.invoke('delete-user', {
       body: {
         user_id: user.id
       }
@@ -305,7 +305,7 @@ export default function Settings() {
         <Card>
           <CardHeader>
             <CardTitle className="text-brand-wine">Habits You Want to Break</CardTitle>
-            <CardDescription className="text-brand-wine">Patterns you'd like to change</CardDescription>
+            <CardDescription className="text-brand-wine">Patterns you&apos;d like to change</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Add new habit */}

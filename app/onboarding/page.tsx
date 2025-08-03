@@ -217,7 +217,7 @@ export default function Onboarding() {
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl text-brand-wine">Welcome!</CardTitle>
-        <CardDescription className="text-brand-wine">Let's start by getting to know you</CardDescription>
+        <CardDescription className="text-brand-wine">Let&apos;s start by getting to know you</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
@@ -293,7 +293,7 @@ export default function Onboarding() {
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl text-brand-wine">Habits You Want to Break</CardTitle>
-        <CardDescription className="text-brand-wine">Help us understand patterns that you'd like to change</CardDescription>
+        <CardDescription className="text-brand-wine">Help us understand patterns that you&apos;d like to change</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Add new habit */}

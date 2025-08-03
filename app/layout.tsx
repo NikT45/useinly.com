@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL

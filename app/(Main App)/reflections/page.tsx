@@ -6,11 +6,11 @@ import { useEffect } from "react"
 
 export default function Reflections() {
 
-    const { reflections, getReflections, updateReflection } = useReflection();
+    const { reflections, getReflections } = useReflection();
 
     useEffect(() => {
         getReflections();
-    }, []);
+    }, [getReflections]);
 
 
 

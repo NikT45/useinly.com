@@ -4,13 +4,12 @@ import TalkCircle from "@/components/TalkCircle";
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Conversation } from "@/components/conversation";
 import VoiceCallButtons from "@/components/voiceCallButtons";
 import { useConversation } from "@/context/ConversationProvider";
 import { Chat } from "@/components/chat";
 
 export default function Home() {
-    const {mode, messages, timeRemaining, timerActive, showTimerWarning} = useConversation();
+    const {mode, messages, timeRemaining, timerActive} = useConversation();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();

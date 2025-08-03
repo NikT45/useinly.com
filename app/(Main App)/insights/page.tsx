@@ -8,11 +8,11 @@ export default function Insights() {
 
     useEffect(() => {
         getInsights();
-    }, []);
+    }, [getInsights]);
 
     console.log(insights);
 
-    const renderValue = (value: any, key?: string): React.ReactNode => {
+    const renderValue = (value: unknown): React.ReactNode => {
         if (value === null || value === undefined) {
             return <span className="text-brand-wine">No data</span>;
         }
@@ -38,7 +38,7 @@ export default function Insights() {
                                 {nestedKey.replace(/_/g, ' ')}
                             </h4>
                             <div className="ml-4">
-                                {renderValue(nestedValue, nestedKey)}
+                                {renderValue(nestedValue)}
                             </div>
                         </div>
                     ))}
@@ -53,14 +53,10 @@ export default function Insights() {
         return <span className="text-brand-wine">{String(value)}</span>;
     };
 
-    const formatKey = (key: string): string => {
-        return key
-            .replace(/_/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
-    };
+
 
     // Transform radar_scores object to chart data format
-    const transformRadarData = (radarScores: any) => {
+    const transformRadarData = (radarScores: Record<string, unknown>) => {
         if (!radarScores || typeof radarScores !== 'object') {
             return undefined;
         }

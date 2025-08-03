@@ -44,7 +44,6 @@ export default function NewReflectionEntry({
     const handleSave = async () => {
         if (text.trim()) {
             // Extract title from first line or use a default
-            const lines = text.trim().split('\n')
             //keeping title empty for now
             const title = suggestedPrompt || null;
             const content = text.trim()

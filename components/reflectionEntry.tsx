@@ -23,7 +23,7 @@ export default function ReflectionEntry(props: {
                 month: 'long',
                 day: 'numeric'
             })
-        } catch (error) {
+        } catch {
             return dateString // fallback to original string if parsing fails
         }
     }

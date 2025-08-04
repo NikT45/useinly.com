@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, X, Save, CreditCard, Trash2 } from "lucide-react";
+import { ChevronDown, X, Save } from "lucide-react";
 
 interface UserData {
   firstName: string;
@@ -178,27 +178,6 @@ export default function Settings() {
       ...prev,
       habits: prev.habits.filter((_, i) => i !== index)
     }));
-  };
-
-  const handleManageSubscription = async () => {
-    const supabase = createClient();
-    
-    try {
-      const { data, error } = await supabase.functions.invoke('get-customer-portal');
-      
-      if (error) {
-        console.error('Error calling get-customer-portal:', error);
-        return;
-      }
-      
-      console.log('Customer portal data:', data);
-      
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      console.error('Error invoking edge function:', error);
-    }
   };
 
 //   const handleUpgrade = () => {

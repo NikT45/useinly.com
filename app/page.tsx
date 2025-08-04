@@ -2,9 +2,9 @@
 
 import { Navbar } from "@/components/navbar";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import ShinyText from "@/components/ShinyText";
 import { Footer } from "@/components/footer";
 import { AnimatedText } from "@/components/AnimatedText";
 import { createClient } from "@/lib/supabase/client";
@@ -114,7 +114,7 @@ export default function Home() {
                 transformStyle: 'preserve-3d',
               }}
             >
-              <img
+              <Image
                 src="/images/homePage.png"
                 alt="AI Therapy App Interface"
                 width={512}
@@ -164,7 +164,7 @@ export default function Home() {
 
           {/* Reflection Image */}
           <div className="mt-16 mb-12">
-            <img
+            <Image
               src="/images/reflection.png"
               alt="Daily Reflections Interface"
               width={512}
@@ -190,7 +190,7 @@ export default function Home() {
 
           {/* Insights Image */}
           <div className="mt-16 mb-12">
-            <img
+            <Image
               src="/images/insights.png"
               alt="Weekly Insights Interface"
               width={512}

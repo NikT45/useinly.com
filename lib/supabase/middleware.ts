@@ -60,6 +60,37 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Check onboarding status for authenticated users
+  if (
+    user &&
+    !request.nextUrl.pathname.startsWith("/onboarding") &&
+    !request.nextUrl.pathname.startsWith("/auth") &&
+    !request.nextUrl.pathname.startsWith("/pricing") &&
+    !request.nextUrl.pathname.startsWith("/privacy") &&
+    !request.nextUrl.pathname.startsWith("/terms") &&
+    request.nextUrl.pathname !== "/"
+  ) {
+    try {
+      // Check if user has completed onboarding
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('has_onboarded')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!error && !profile?.has_onboarded) {
+        // User hasn't completed onboarding, redirect to onboarding page
+        const url = request.nextUrl.clone();
+        url.pathname = "/onboarding";
+        return NextResponse.redirect(url);
+      }
+    } catch (error) {
+      // If there's an error checking onboarding status, allow them to proceed
+      // This prevents breaking the app if there's a database issue
+      console.error("Error checking onboarding status:", error);
+    }
+  }
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:

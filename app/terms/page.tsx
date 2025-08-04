@@ -18,7 +18,7 @@ export default function TermsOfService() {
         <h1 className="text-3xl font-bold text-brand-wine mb-6 text-center">Terms of Service</h1>
         
         <div className="bg-white rounded-lg shadow-md p-6">
-          <p className="text-brand-wine mb-4"><strong>Effective Date:</strong> [Insert Date]</p>
+          <p className="text-brand-wine mb-4"><strong>Effective Date:</strong> August 4, 2025</p>
           
           <div className="space-y-4 text-brand-wine">
             <div>

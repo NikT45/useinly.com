@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
         <h1 className="text-3xl font-bold text-brand-wine mb-6 text-center">Privacy Policy</h1>
         
         <div className="bg-white rounded-lg shadow-md p-6">
-          <p className="text-brand-wine mb-4"><strong>Effective Date:</strong> [Insert Date]</p>
+          <p className="text-brand-wine mb-4"><strong>Effective Date:</strong> August 4, 2025</p>
           
           <div className="space-y-4 text-brand-wine">
             <div>
@@ -59,7 +59,7 @@ export default function PrivacyPolicy() {
                 <li>Request access to your data</li>
                 <li>Request deletion of your account and associated data</li>
               </ul>
-              <p className="mt-2">To make a request, email: [your support email].</p>
+              <p className="mt-2">To make a request, email: <a href="mailto:support@useinly.com" className="text-brand-berry hover:text-brand-wine transition-colors">support@inly.ai</a>.</p>
             </div>
           </div>
         </div>

@@ -384,42 +384,23 @@ export default function Settings() {
         </Card>
 
         {/* Account Management */}
-        {/* <Card>
+        <Card>
           <CardHeader>
             <CardTitle className="text-brand-wine">Account Management</CardTitle>
-            <CardDescription className="text-brand-wine">Manage your subscription and account</CardDescription>
+            <CardDescription className="text-brand-wine">Manage your account settings</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col sm:flex-row gap-4">
-              {data.planTier === 'free' ? (
-                <Button 
-                  onClick={handleUpgrade}
-                  className="bg-brand-berry hover:bg-brand-berry/90 text-white"
-                >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Upgrade Plan
-                </Button>
-              ) : (
-                <Button 
-                  onClick={handleManageSubscription}
-                  className="bg-brand-berry hover:bg-brand-berry/90 text-white"
-                >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Manage Subscription
-                </Button>
-              )}
-              
               <Button 
                 variant="outline"
                 onClick={() => setShowDeleteModal(true)}
                 className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
               >
-                <Trash2 className="mr-2 h-4 w-4" />
                 Delete Account
               </Button>
             </div>
           </CardContent>
-        </Card> */}
+        </Card>
 
         {/* Save Button */}
         <div className="flex justify-end">

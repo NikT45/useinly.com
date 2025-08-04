@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function SignUpForm({
   className,
@@ -23,6 +24,7 @@ export function SignUpForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -35,6 +37,12 @@ export function SignUpForm({
 
     if (password !== repeatPassword) {
       setError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!termsAccepted) {
+      setError("You must agree to the Terms and Conditions");
       setIsLoading(false);
       return;
     }
@@ -58,63 +66,81 @@ export function SignUpForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Repeat Password</Label>
-                </div>
-                <Input
-                  id="repeat-password"
-                  type="password"
-                  required
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating an account..." : "Sign up"}
-              </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
-                Login
-              </Link>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+<Card className="bg-brand-peach/10">
+         <CardHeader>
+           <CardTitle className="text-2xl text-brand-wine">Sign up</CardTitle>
+           <CardDescription className="text-brand-berry">Create a new account</CardDescription>
+         </CardHeader>
+         <CardContent>
+           <form onSubmit={handleSignUp}>
+             <div className="flex flex-col gap-6">
+               <div className="grid gap-2">
+                 <Label htmlFor="email" className="text-brand-wine">Email</Label>
+                 <Input
+                   id="email"
+                   type="email"
+                   placeholder="m@example.com"
+                   required
+                   value={email}
+                   onChange={(e) => setEmail(e.target.value)}
+                   className="border-brand-coral/30 focus:border-brand-coral focus:ring-brand-coral"
+                 />
+               </div>
+               <div className="grid gap-2">
+                 <div className="flex items-center">
+                   <Label htmlFor="password" className="text-brand-wine">Password</Label>
+                 </div>
+                 <Input
+                   id="password"
+                   type="password"
+                   required
+                   value={password}
+                   onChange={(e) => setPassword(e.target.value)}
+                   className="border-brand-coral/30 focus:border-brand-coral focus:ring-brand-coral"
+                 />
+               </div>
+               <div className="grid gap-2">
+                 <div className="flex items-center">
+                   <Label htmlFor="repeat-password" className="text-brand-wine">Repeat Password</Label>
+                 </div>
+                 <Input
+                   id="repeat-password"
+                   type="password"
+                   required
+                   value={repeatPassword}
+                   onChange={(e) => setRepeatPassword(e.target.value)}
+                   className="border-brand-coral/30 focus:border-brand-coral focus:ring-brand-coral"
+                 />
+               </div>
+               <div className="grid gap-2">
+                 <div className="flex items-center">
+                   <Checkbox
+                     id="terms"
+                     checked={termsAccepted}
+                     onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+                   />
+                   <Label htmlFor="terms" className="ml-2 text-sm text-brand-wine">
+                     I agree to the{" "}
+                     <Link href="/terms" className="underline underline-offset-4 text-brand-coral hover:text-brand-berry">
+                       Terms and Conditions
+                     </Link>
+                   </Label>
+                 </div>
+               </div>
+               {error && <p className="text-sm text-red-500">{error}</p>}
+               <Button type="submit" className="w-full bg-brand-coral hover:bg-brand-berry text-white" disabled={isLoading || !termsAccepted}>
+                 {isLoading ? "Creating an account..." : "Sign up"}
+               </Button>
+             </div>
+             <div className="mt-4 text-center text-sm">
+               Already have an account?{" "}
+               <Link href="/auth/login" className="underline underline-offset-4 text-brand-coral hover:text-brand-berry">
+                 Login
+               </Link>
+             </div>
+           </form>
+         </CardContent>
+       </Card>
     </div>
   );
 }

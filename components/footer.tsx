@@ -8,7 +8,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-2xl font-bold mb-4">Inly</h3>
             <p className="text-brand-softPink max-w-md">
-              Your personalized mental wellness companion, available 24/7 to support your journey toward better mental health.
+              Break free from limiting patterns and build healthier habits with your AI-powered mental wellness companion, available 24/7.
             </p>
           </div>
           
@@ -16,7 +16,7 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4">Navigation</h4>
             <ul className="space-y-2">
               <li><Link href="/" className="text-brand-softPink hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/pricing" className="text-brand-softPink hover:text-white transition-colors">Pricing</Link></li>
+              {/* <li><Link href="/pricing" className="text-brand-softPink hover:text-white transition-colors">Pricing</Link></li> */}
               <li><Link href="/#features" className="text-brand-softPink hover:text-white transition-colors">Features</Link></li>
             </ul>
           </div>

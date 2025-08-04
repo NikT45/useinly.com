@@ -201,9 +201,9 @@ export default function Settings() {
     }
   };
 
-  const handleUpgrade = () => {
-    router.push('/pricing');
-  };
+//   const handleUpgrade = () => {
+//     router.push('/pricing');
+//   };
 
   const handleDeleteAccount = async () => {
     if (deleteConfirmText !== "DELETE") return;
@@ -405,7 +405,7 @@ export default function Settings() {
         </Card>
 
         {/* Account Management */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-brand-wine">Account Management</CardTitle>
             <CardDescription className="text-brand-wine">Manage your subscription and account</CardDescription>
@@ -440,7 +440,7 @@ export default function Settings() {
               </Button>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Save Button */}
         <div className="flex justify-end">

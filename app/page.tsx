@@ -100,8 +100,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
-            <Link href="/signup" className="bg-brand-berry px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors">
-              <ShinyText text="Start Chatting For Free" disabled={false} speed={3} className='' />
+            <Link href="/signup" className="bg-brand-berry px-6 py-3 rounded-2xl text-lg font-semibold hover:bg-brand-coral transition-colors text-white">
+              Start Chatting For Free
             </Link>
           </motion.div>
 

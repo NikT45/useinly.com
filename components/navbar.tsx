@@ -13,20 +13,17 @@ export function Navbar() {
                 <div className="px-6 py-4 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-brand-coral to-brand-berry rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">IN</span>
-                        </div>
-                        <span className="font-semibold text-lg text-foreground">Inly</span>
+                        <span className="font-semibold text-lg text-brand-berry">Inly</span>
                     </Link>
 
                     {/* Navigation Links - Desktop */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <Link
+                        {/* <Link
                             href="/pricing"
                             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
                         >
                             Pricing
-                        </Link>
+                        </Link> */}
                         <Link
                             href="/privacy"
                             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
@@ -80,13 +77,13 @@ export function Navbar() {
                 {isMenuOpen && (
                     <div className="md:hidden px-6 py-4 border-t border-white/20 dark:border-white/10">
                         <div className="flex flex-col space-y-4">
-                            <Link
+                            {/* <Link
                                 href="/pricing"
                                 className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors py-2"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Pricing
-                            </Link>
+                            </Link> */}
                             <Link
                                 href="/privacy"
                                 className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors py-2"

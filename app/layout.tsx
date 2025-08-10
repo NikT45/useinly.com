@@ -10,24 +10,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Inly",
   description: "Break free from limiting patterns and build healthier habits with your AI-powered mental wellness companion, available 24/7.",
-
-  openGraph: {
-    title: "Inly – Your AI Mental Wellness Companion",
-    description:
-      "Break free from limiting patterns and build healthier habits with your AI-powered mental wellness companion, available 24/7.",
-    url: defaultUrl,
-    siteName: "Inly",
-    images: [
-      {
-        url: `${defaultUrl}/images/homePage.png`,
-        width: 1200,
-        height: 630,
-        alt: "Inly preview image",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
 };
 
 const outfit = Outfit({

@@ -69,7 +69,7 @@ export default function Onboarding() {
         if (error) throw error;
         
         if (data?.has_onboarded) {
-          router.push("/home");
+          window.location.href = "/home";
         }
       } catch (error) {
         console.error("Error checking onboarding status:", error);
@@ -171,7 +171,9 @@ export default function Onboarding() {
       if (error) throw error;
       
       console.log("Onboarding completed and saved:", data);
-      router.push("/home");
+      
+      // Use window.location.href for a hard redirect to ensure middleware picks up the updated status
+      window.location.href = "/home";
     } catch (error) {
       console.error("Error saving onboarding data:", error);
       // You might want to show an error message to the user
@@ -200,12 +202,14 @@ export default function Onboarding() {
       
       console.log("Onboarding skipped");
       setShowSkipModal(false);
-      router.push("/home");
+      
+      // Use window.location.href for a hard redirect to ensure middleware picks up the updated status
+      window.location.href = "/home";
     } catch (error) {
       console.error("Error updating onboarding status:", error);
       // Still redirect even if there's an error
       setShowSkipModal(false);
-      router.push("/home");
+      window.location.href = "/home";
     }
   };
 

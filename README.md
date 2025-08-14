@@ -1,4 +1,7 @@
 # Inly @ useinly.com
+<img width="2880" height="2048" alt="homePage" src="https://github.com/user-attachments/assets/4870c01f-0f14-4572-b7d5-db520d8a3411" />
+
+
 
 Inly is an AI-powered emotional support tool designed to help you break habits, reflect on your progress, and grow over time.  
 It combines **real-time voice and chat interactions** with intelligent context management to deliver personalized insights, daily prompts, and weekly progress reports—all for free.
@@ -22,8 +25,6 @@ It combines **real-time voice and chat interactions** with intelligent context m
 - ** Privacy-First Design**  
   Built with [Supabase](https://supabase.com/) for secure data handling using Row-Level Security (RLS) and Edge Functions.
 
-- **Always Free**  
-  No subscriptions, no paywalls—just ongoing support.
 
 ---
 

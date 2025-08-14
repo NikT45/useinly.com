@@ -6,7 +6,7 @@
       alt="homePage" 
       width="720" 
       height="512" 
-      style="border-radius: 15px;" 
+      style="border-radius: 50px;" 
     />
   </a>
 </p>

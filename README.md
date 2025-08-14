@@ -1,14 +1,6 @@
 # [Inly @ useinly.com](https://useinly.com)
 <p align="center">
-  <a href="https://useinly.com">
-    <img 
-      src="https://github.com/user-attachments/assets/4870c01f-0f14-4572-b7d5-db520d8a3411" 
-      alt="homePage" 
-      width="720" 
-      height="512" 
-      style="border-radius: 50px;" 
-    />
-  </a>
+  <img width="720" height="512" alt="homePage" src="https://github.com/user-attachments/assets/4870c01f-0f14-4572-b7d5-db520d8a3411" />
 </p>
 
 

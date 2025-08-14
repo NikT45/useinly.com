@@ -1,6 +1,7 @@
-# Inly @ useinly.com
-<img width="720" height="512" alt="homePage" src="https://github.com/user-attachments/assets/4870c01f-0f14-4572-b7d5-db520d8a3411" />
-
+# [Inly @ useinly.com](https://useinly.com)
+<p align="center">
+  <img width="720" height="512" alt="homePage" src="https://github.com/user-attachments/assets/4870c01f-0f14-4572-b7d5-db520d8a3411" />
+</p>
 
 
 Inly is an AI-powered emotional support tool designed to help you break habits, reflect on your progress, and grow over time.  
